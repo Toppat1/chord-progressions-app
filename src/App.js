@@ -18,6 +18,21 @@ function App() {
     synth.triggerAttackRelease(notes, '16n');
   }
 
+  // Play a sequence of notes without repeating
+  function playSequence(notes) {
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    const now = Tone.now();
+    const part = new Tone.Part(
+      (time, note) => {
+        synth.triggerAttackRelease(note, '16n', time);
+      },
+      notes.map((note, index) => [index * 0.075, note])
+    ).start(0);
+
+    Tone.Transport.start(now);
+  }
+
   // Array of notes
   const notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5'];
 
@@ -85,7 +100,13 @@ function App() {
         <p>This is a description</p>
         <h2>Is this larger than h1?</h2>
         <h3>The larger the hX number, the smaller it gets, like headings in Google Docs.</h3>
-        <button onClick={() => alert('You clicked the button lmao')}>Skibidi button</button>
+        <button
+          onClick={() => {
+            playSequence(['D4', 'F#4', 'A4', 'D5']);
+          }}
+        >
+          Skibidi button
+        </button>
 
         {/* Generate buttons for each note */}
         <div className='note-buttons'>
