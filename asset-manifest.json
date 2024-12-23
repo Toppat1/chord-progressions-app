@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Toppat1/chord-progressions-app/static/css/main.0a3b35cc.css",
+    "main.js": "/Toppat1/chord-progressions-app/static/js/main.3f618ff0.js",
+    "index.html": "/Toppat1/chord-progressions-app/index.html",
+    "main.0a3b35cc.css.map": "/Toppat1/chord-progressions-app/static/css/main.0a3b35cc.css.map",
+    "main.3f618ff0.js.map": "/Toppat1/chord-progressions-app/static/js/main.3f618ff0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0a3b35cc.css",
+    "static/js/main.3f618ff0.js"
+  ]
+}
