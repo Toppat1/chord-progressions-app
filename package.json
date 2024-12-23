@@ -1,8 +1,8 @@
 {
   "name": "chord-progressions-app",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://<your-github-username>.github.io/<repository-name>",
+  "private": false,
+  "homepage": "https://toppat1.github.io/chord-progressions-app",
   "dependencies": {
     "cra-template": "1.2.0",
     "react": "^19.0.0",

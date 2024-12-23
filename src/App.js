@@ -113,7 +113,7 @@ function App() {
 
         {/* Unordered list */}
         <ul>
-          <li>First item in list</li>
+          <li>First item in LIST</li>
           <li>Second item in list</li>
           <li>よろしくね！</li>
         </ul>
