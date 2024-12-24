@@ -29,3 +29,11 @@ button:hover {
   margin: 5px;
   padding: 0;
 }
+
+.button-grid-container {
+  display: grid;
+}
+
+.grid-button {
+  grid-column: span 2;
+}

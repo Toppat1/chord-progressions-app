@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
+import { playNote, playChord, playSequence, notes, chords } from './musicHelpers.js';
 
 function ButtonGrid() {
-  const rows = 3;
-  const cols = 3;
+  const rows = 4;
+  const cols = 4;
 
   const gridItems = [];
 
@@ -12,7 +13,7 @@ function ButtonGrid() {
     for (let j = 0; j < cols; j++) {
       rowButtons.push(
         <button key={`%{i}-{j}`} className='grid-button' onClick={() => alert(`Button at row ${i} and column ${j} was clicked!`)}>
-          Gyatt button
+          {i}.{j}
         </button>
       );
     }
@@ -24,7 +25,7 @@ function ButtonGrid() {
     );
   }
 
-  return <div className='button-grid'>{gridItems}</div>;
+  return <div className='button-grid-container'>{gridItems}</div>;
 }
 
 export default ButtonGrid;
