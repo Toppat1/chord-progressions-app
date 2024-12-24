@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Tone from 'tone';
 import './App.css';
+import ButtonGrid from './ButtonGrid.js';
 
 function App() {
   // Creating a synth instance
@@ -93,6 +94,7 @@ function App() {
       {/* Header Section */}
       <div className='header'>
         <h1>Chord Progressions</h1>
+        <ButtonGrid />
       </div>
 
       {/* Content Section */}
