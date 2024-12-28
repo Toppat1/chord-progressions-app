@@ -17,8 +17,8 @@ export function playChord(notes) {
 
 // Play a sequence of notes without repeating
 export function playSequence(notes) {
-  Tone.Transport.stop();
-  Tone.Transport.cancel();
+  Tone.getTransport.stop();
+  Tone.getTransport.cancel();
   const now = Tone.now();
   const part = new Tone.Part(
     (time, note) => {
@@ -27,7 +27,7 @@ export function playSequence(notes) {
     notes.map((note, index) => [index * 0.075, note])
   ).start(0);
 
-  Tone.Transport.start(now);
+  Tone.getTransport.start(now);
 }
 
 // Array of notes
@@ -37,29 +37,44 @@ export const notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 
 export const chords = {
   'Major chords': {
     'C': ['C4', 'E4', 'G4'],
+    'C#': ['C#4', 'F4', 'G#4'],
     'D': ['D4', 'F#4', 'A4'],
+    'D#': ['D#4', 'G4', 'A#4'],
     'E': ['E4', 'G#4', 'B4'],
     'F': ['F4', 'A4', 'C5'],
+    'F#': ['F#4', 'A#4', 'C#5'],
     'G': ['G4', 'B4', 'D5'],
+    'G#': ['G#4', 'C5', 'D#5'],
     'A': ['A4', 'C#5', 'E5'],
+    'A#': ['A#4', 'D5', 'F5'],
     'B': ['B4', 'D#5', 'F#5'],
   },
   'Minor chords': {
     'Cm': ['C4', 'D#4', 'G4'],
+    'C#m': ['C#4', 'E4', 'G#4'],
     'Dm': ['D4', 'F4', 'A4'],
+    'D#m': ['D#4', 'F#4', 'A#4'],
     'Em': ['E4', 'G4', 'B4'],
     'Fm': ['F4', 'G#4', 'C5'],
+    'F#m': ['F#4', 'A4', 'C#5'],
     'Gm': ['G4', 'A#4', 'D5'],
+    'G#m': ['G#4', 'B4', 'D#5'],
     'Am': ['A4', 'C5', 'E5'],
+    'A#m': ['A#4', 'C#5', 'F5'],
     'Bm': ['B4', 'D5', 'F#5'],
   },
   'Seventh chords': {
     'C7': ['C4', 'E4', 'G4', 'A#4'],
+    'C#7': ['C#4', 'F4', 'G#4', 'B4'],
     'D7': ['D4', 'F#4', 'A4', 'C5'],
+    'D#7': ['D#4', 'G4', 'A#4', 'C#5'],
     'E7': ['E4', 'G#4', 'B4', 'D5'],
     'F7': ['F4', 'A4', 'C5', 'D#5'],
+    'F#7': ['F#4', 'A#4', 'C#5', 'E5'],
     'G7': ['G4', 'B4', 'D5', 'F5'],
+    'G#7': ['G#4', 'C5', 'D#5', 'F#5'],
     'A7': ['A4', 'C#5', 'E5', 'G5'],
+    'A#7': ['A#4', 'D5', 'F5', 'G#5'],
     'B7': ['B4', 'D#5', 'F#5', 'A5'],
   },
   'Diminished chords': {

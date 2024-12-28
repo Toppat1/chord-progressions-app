@@ -32,8 +32,14 @@ button:hover {
 
 .button-grid-container {
   display: grid;
+  grid-template-columns: repeat(14, 1fr);
 }
 
 .grid-button {
+  max-width: 100px;
+}
+
+.span-two {
   grid-column: span 2;
+  max-width: 200px;
 }
