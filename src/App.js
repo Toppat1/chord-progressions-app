@@ -24,6 +24,11 @@ function App() {
         >
           Skibidi button
         </button>
+        <button
+          onClick={() => {
+            playChord('C#m');
+          }}
+        >C#m</button>
 
         {/* Generate buttons for each note */}
         <div className='note-buttons'>

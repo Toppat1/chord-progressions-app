@@ -35,7 +35,7 @@ button:hover {
 }
 
 .grid-button {
-  max-width: 100px;
+  width: 100px;
   grid-column: span 2;
 }
 
@@ -45,4 +45,14 @@ button:hover {
 
 .empty-indent-space {
   grid-column: span 1;
+}
+
+.invisible-button {
+  visibility: hidden;
+  width: 100px;
+}
+
+.indent-button {
+  visibility: hidden;
+  width: 50px;
 }

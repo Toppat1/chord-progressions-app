@@ -12,7 +12,7 @@ function ButtonGrid() {
     ['Cm', 'Dm', 'Em', 'Fm', 'Gm', 'Am', 'Bm'],
     [null, 'C#m7b5', 'D#m7b5', '', 'F#m7b5', 'G#m7b5', ''],
     ['C/E', 'D/F#', 'E/G#', 'F/A', 'G/B', 'A/C#', 'Bm/D'],
-    ['', 'DAug', 'D#Aug', '', 'G/F', '', ''],
+    ['', 'Daug', 'D#aug', '', 'G/F', '', ''],
     ['C7', 'D7', 'E7', 'F7', 'G7', 'A7', 'B7'],
     ['Cm7', 'Dm7', 'Em7', 'Fm7', 'Gm7', 'Am7', 'Bm7'],
     ['Cmaj7', 'Dsus4', 'Esus4', 'Fsus4', 'Gsus4', 'Asus4', 'Bsus4'],
@@ -24,14 +24,17 @@ function ButtonGrid() {
     let rowItems = [];
 
     for (let col = 0; col < cols; col++) {
+
       if (chordButtons[row] && chordButtons[row][col] === null) {
-        // Handle null values (indent spaces)
-        rowItems.push(<div key={`${row}-${col}`} className='empty-indent-space'></div>);
+        // Indent spaces
+        rowItems.push(<button key={`${row}-${col}`} className='indent-button'></button>);
+
       } else if (chordButtons[row] && chordButtons[row][col] === '') {
-        // Handle empty strings (empty spaces)
-        rowItems.push(<div key={`${row}-${col}`} className='empty-button-space'></div>);
+        // Empty button spaces
+        rowItems.push(<button key={`${row}-${col}`} className='invisible-button'></button>);
+
       } else if (chordButtons[row] && chordButtons[row][col]) {
-        // Handle chord buttons
+        // Chord buttons
         rowItems.push(
           <button key={`${row}-${col}`} className='grid-button' onClick={() => playChord(chordButtons[row][col])}>
             {chordButtons[row][col]}
