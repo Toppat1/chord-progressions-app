@@ -10,7 +10,7 @@ function ButtonGrid() {
     [null, 'C#', 'D#', '', 'F#', 'G#', 'A#'],
     ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
     ['Cm', 'Dm', 'Em', 'Fm', 'Gm', 'Am', 'Bm'],
-    [null, 'C#m7b5', 'D#m7b5', '', 'F#m7b5', 'G#m7b5', ''],
+    [null, 'C#m7b5', 'D#dim7', '', 'F#m7b5', 'G#m7b5', ''],
     ['C/E', 'D/F#', 'E/G#', 'F/A', 'G/B', 'A/C#', 'Bm/D'],
     ['', 'Daug', 'D#aug', '', 'G/F', '', ''],
     ['C7', 'D7', 'E7', 'F7', 'G7', 'A7', 'B7'],
