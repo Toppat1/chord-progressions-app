@@ -6,13 +6,31 @@ import { playNote, playChord, playSequence, notes, chords } from './musicHelpers
 function App() {
   return (
     <div>
-      {/* Header Section */}
-      <div className='header'>
+      {/* Title Header */}
+      <div className='title-header'>
         <h1>Chord Progressions</h1>
+      </div>
+
+      {/* Piano Header */}
+      <div className='piano-header'>
+        <h2>Piano</h2>
+      </div>
+
+      {/* Piano Section */}
+      <div class='piano-container'>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+      </div>
+
+      {/* Chord Grid Section */}
+      <div>
         <ButtonGrid />
       </div>
 
-      {/* Content Section */}
+      {/* Yellow Section */}
       <div className='content'>
         <p>This is a description</p>
         <h2>Is this larger than h1?</h2>
@@ -28,7 +46,9 @@ function App() {
           onClick={() => {
             playChord('C#m');
           }}
-        >C#m</button>
+        >
+          C#m
+        </button>
 
         {/* Generate buttons for each note */}
         <div className='note-buttons'>

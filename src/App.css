@@ -2,11 +2,18 @@ body {
   background-color: #f0f0f0;
 }
 
-.header h1 {
+.title-header h1 {
   margin: 0;
   padding: 10px;
   text-align: center;
   background-color: lightblue;
+}
+
+.piano-header h2 {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: lightgreen;
 }
 
 .content {
@@ -42,4 +49,18 @@ button:hover {
 .indent-button {
   visibility: hidden;
   width: 50px;
+}
+
+.piano-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: lavender;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  height: 200px;
+}
+
+.piano-container > div {
+  background-color: white;
+  font-size: 20px;
 }
