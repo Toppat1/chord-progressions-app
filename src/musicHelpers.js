@@ -32,8 +32,8 @@ export function playChord(chordNameOrNotes) {
 
 // Play a sequence of notes without repeating
 export function playSequence(notes) {
-  Tone.getTransport.stop();
-  Tone.getTransport.cancel();
+  Tone.Transport.stop();
+  Tone.Transport.cancel();
   const now = Tone.now();
   const part = new Tone.Part(
     (time, note) => {
@@ -42,7 +42,7 @@ export function playSequence(notes) {
     notes.map((note, index) => [index * 0.075, note])
   ).start(0);
 
-  Tone.getTransport.start(now);
+  Tone.Transport.start(now);
 }
 
 // Array of notes
