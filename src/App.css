@@ -16,8 +16,31 @@ body {
   background-color: lightgreen;
 }
 
+.degree-header h2 {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: lightgreen;
+}
+
+.chord-header h2 {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: lightgreen;
+}
+
+.main-header h2 {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: lightgreen;
+}
+
 .content {
   background-color: yellow;
+  padding: 0px;
+  margin: 0;
 }
 
 button {

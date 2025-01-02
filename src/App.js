@@ -25,9 +25,29 @@ function App() {
         <div>5</div>
       </div>
 
+      {/* Degree Header */}
+      <div className='degree-header'>
+        <h2>Degree</h2>
+      </div>
+
+      {/* Degree Section */}
+      <div className='degree-container'>
+        <button>G major</button>
+      </div>
+
+      {/* Chord Header */}
+      <div className='chord-header'>
+        <h2>Chords</h2>
+      </div>
+
       {/* Chord Grid Section */}
       <div>
         <ButtonGrid />
+      </div>
+
+      {/* Main Header */}
+      <div className='main-header'>
+        <h2>Main</h2>
       </div>
 
       {/* Yellow Section */}
