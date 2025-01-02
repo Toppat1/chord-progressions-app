@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import ButtonGrid from './ButtonGrid.js';
 import { playNote, playChord, playSequence, notes, chords } from './musicHelpers.js';
+import DegreeSection from './DegreeSection.js';
 
 function App() {
   return (
@@ -10,12 +11,10 @@ function App() {
       <div className='title-header'>
         <h1>Chord Progressions</h1>
       </div>
-
       {/* Piano Header */}
       <div className='piano-header'>
         <h2>Piano</h2>
       </div>
-
       {/* Piano Section */}
       <div class='piano-container'>
         <div>1</div>
@@ -24,32 +23,28 @@ function App() {
         <div>4</div>
         <div>5</div>
       </div>
-
       {/* Degree Header */}
       <div className='degree-header'>
         <h2>Degree</h2>
       </div>
-
+      
       {/* Degree Section */}
-      <div className='degree-container'>
-        <button>G major</button>
+      <div>
+        <DegreeSection />
       </div>
 
       {/* Chord Header */}
       <div className='chord-header'>
         <h2>Chords</h2>
       </div>
-
       {/* Chord Grid Section */}
       <div>
         <ButtonGrid />
       </div>
-
       {/* Main Header */}
       <div className='main-header'>
         <h2>Main</h2>
       </div>
-
       {/* Yellow Section */}
       <div className='content'>
         <p>This is a description</p>
