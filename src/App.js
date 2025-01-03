@@ -32,7 +32,7 @@ function App() {
       </div>
 
       {/* Degree Section */}
-      <div>
+      <div className='degree-chord-container'>
         <DegreeSection />
       </div>
 

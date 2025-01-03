@@ -14,23 +14,24 @@ function DegreeSection() {
     ],
   };
 
+  // Maybe use chords object in future?
   const degreeChords = [
-    ['C', 'Cm', 'Cdim'],
-    ['C#', 'C#m', 'C#dim'],
-    ['D', 'Dm', 'Ddim'],
-    ['D#', 'D#m', 'D#dim'],
-    ['E', 'Em', 'Edim'],
-    ['F', 'Fm', 'Fdim'],
-    ['F#', 'F#m', 'F#dim'],
-    ['G', 'Gm', 'Gdim'],
-    ['G#', 'G#m', 'G#dim'],
-    ['A', 'Am', 'Adim'],
-    ['A#', 'A#m', 'A#dim'],
-    ['B', 'Bm', 'Bdim'],
+    ['C', 'Cm', 'Cdim', 'Cdim7', 'Cm7b5', 'Csus2', 'Csus4', 'Caug', 'C/E', 'C/G'],
+    ['C#', 'C#m', 'C#dim', 'C#dim7', 'C#m7b5', 'C#sus2', 'C#sus4', 'C#aug', 'C#/F', 'C#/G#'],
+    ['D', 'Dm', 'Ddim', 'Ddim7', 'Dm7b5', 'Dsus2', 'Dsus4', 'Daug', 'D/F#', 'D/A'],
+    ['D#', 'D#m', 'D#dim', 'D#dim7', 'D#m7b5', 'D#sus2', 'D#sus4', 'D#aug', 'D#/G', 'D#/A#'],
+    ['E', 'Em', 'Edim', 'Edim7', 'Em7b5', 'Esus2', 'Esus4', 'Eaug', 'E/G#', 'E/B'],
+    ['F', 'Fm', 'Fdim', 'Fdim7', 'Fm7b5', 'Fsus2', 'Fsus4', 'Faug', 'F/A', 'F/C'],
+    ['F#', 'F#m', 'F#dim', 'F#dim7', 'F#m7b5', 'F#sus2', 'F#sus4', 'F#aug', 'F#/A#', 'F#/C#'],
+    ['G', 'Gm', 'Gdim', 'Gdim7', 'Gm7b5', 'Gsus2', 'Gsus4', 'Gaug', 'G/B', 'G/D'],
+    ['G#', 'G#m', 'G#dim', 'G#dim7', 'G#m7b5', 'G#sus2', 'G#sus4', 'G#aug', 'G#/C', 'G#/D#'],
+    ['A', 'Am', 'Adim', 'Adim7', 'Am7b5', 'Asus2', 'Asus4', 'Aaug', 'A/C#', 'A/E'],
+    ['A#', 'A#m', 'A#dim', 'A#dim7', 'A#m7b5', 'A#sus2', 'A#sus4', 'A#aug', 'A#/D', 'A#/F'],
+    ['B', 'Bm', 'Bdim', 'Bdim7', 'Bm7b5', 'Bsus2', 'Bsus4', 'Baug', 'B/D#', 'B/F#'],
   ];
 
   // From the key text and chord degree, return the chord and its degree
-  const getChord = (keyText, degreeDigit) => {
+  const getChord = (keyText, degreeDigit, alteration = '') => {
     // Find the key and whether it is major/minor
     const key = keyText.split(' ')[0];
     const tonality = keyText.split(' ')[1].toLowerCase();
@@ -40,7 +41,7 @@ function DegreeSection() {
 
     // Find the index of the degree based on its number degree
     const degreeIndex = degreeDigit - 1;
-    const degreeNumber = diatonicChords[tonality][0][degreeIndex];
+    let degreeNumber = diatonicChords[tonality][0][degreeIndex];
 
     // The wanted chord's position is the I index + its degree index
 
@@ -49,13 +50,23 @@ function DegreeSection() {
       degreeChordJumps += diatonicChords[tonality][1][i];
     }
 
+    // If a sharp is present, raise the tone
+    degreeChordJumps += alteration.includes('#') ? 1 : 0;
+    degreeChordJumps += alteration.includes('7°7/') ? -1 : 0;
+
     const chordIndex = (Iindex + degreeChordJumps) % degreeChords.length;
 
     // Decide which type of chord to return, e.g. ii = minor, IV = major
     let chordType;
 
-    if (degreeNumber.includes('°')) {
+    if (alteration === '7°7/') {
+      chordType = 3;
+      degreeNumber = 'vii°7/' + degreeNumber;
+    } else if (degreeNumber.includes('°')) {
       chordType = 2;
+    } else if (alteration === '#mø7') {
+      chordType = 4;
+      degreeNumber = '#' + degreeNumber.toLowerCase() + 'ø7';
     } else if (degreeNumber === degreeNumber.toUpperCase()) {
       chordType = 0;
     } else if (degreeNumber === degreeNumber.toLowerCase()) {
@@ -82,9 +93,8 @@ function DegreeSection() {
   const formatDegreeButton = ([degreeDigit, chord]) => {
     return (
       <>
-        <b>{degreeDigit}</b>
-        <br />
-        {chord}
+        <div className='roman-numeral'>{degreeDigit}</div>
+        <div className='chord-name'>{chord}</div>
       </>
     );
   };
@@ -117,36 +127,45 @@ function DegreeSection() {
 
   // Must accommodate getChord function for minor too, cant use I, ii etc
   return (
-    <div className='degree-container'>
-      {isEditing ? (
-        <input type='text' value={inputValue} onChange={handleInputChange} onKeyPress={handleKeyPress} onBlur={() => setIsEditing(false)} autoFocus />
-      ) : (
-        <button id='key-button' onClick={handleButtonClick}>
-          {keyText}
+    <div className='degree-section'>
+      <div className='key-button-container'>
+        {isEditing ? (
+          <input type='text' value={inputValue} onChange={handleInputChange} onKeyPress={handleKeyPress} onBlur={() => setIsEditing(false)} autoFocus />
+        ) : (
+          <button id='key-button' onClick={handleButtonClick}>
+            {keyText}
+          </button>
+        )}
+      </div>
+      <div className='degree-buttons-container'>
+        <button id='degree1' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1)[1])}>
+          {formatDegreeButton(getChord(keyText, 1))}
         </button>
-      )}
-
-      <button id='degree1' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1)[1])}>
-        {formatDegreeButton(getChord(keyText, 1))}
-      </button>
-      <button id='degree2' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2)[1])}>
-        {formatDegreeButton(getChord(keyText, 2))}
-      </button>
-      <button id='degree3' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3)[1])}>
-        {formatDegreeButton(getChord(keyText, 3))}
-      </button>
-      <button id='degree4' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4)[1])}>
-        {formatDegreeButton(getChord(keyText, 4))}
-      </button>
-      <button id='degree5' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5)[1])}>
-        {formatDegreeButton(getChord(keyText, 5))}
-      </button>
-      <button id='degree6' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6)[1])}>
-        {formatDegreeButton(getChord(keyText, 6))}
-      </button>
-      <button id='degree7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7)[1])}>
-        {formatDegreeButton(getChord(keyText, 7))}
-      </button>
+        <button id='degree2' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2)[1])}>
+          {formatDegreeButton(getChord(keyText, 2))}
+        </button>
+        <button id='degree3' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3)[1])}>
+          {formatDegreeButton(getChord(keyText, 3))}
+        </button>
+        <button id='degree4' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4)[1])}>
+          {formatDegreeButton(getChord(keyText, 4))}
+        </button>
+        <button id='degree#m4ø7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4, '#mø7')[1])}>
+          {formatDegreeButton(getChord(keyText, 4, '#mø7'))}
+        </button>
+        <button id='degree5' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5)[1])}>
+          {formatDegreeButton(getChord(keyText, 5))}
+        </button>
+        <button id='degree7°7/3' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6, '7°7/')[1])}>
+          {formatDegreeButton(getChord(keyText, 6, '7°7/'))}
+        </button>
+        <button id='degree6' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6)[1])}>
+          {formatDegreeButton(getChord(keyText, 6))}
+        </button>
+        <button id='degree7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7)[1])}>
+          {formatDegreeButton(getChord(keyText, 7))}
+        </button>
+      </div>
     </div>
   );
 }
