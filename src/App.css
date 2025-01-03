@@ -99,16 +99,22 @@ button:hover {
 .key-button-container {
 }
 
-.degree-buttons-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+.degree-chord-button {
+  width: 90px;
+  font-family: serif;
+  padding: 10px;
+  margin: 5px;
 }
 
-.degree-chord-button {
-  min-width: 90px;
-  flex: 1;
-  font-family: serif;
+.invisible-half-degree-chord-button {
+  width: 40px;
+  min-width: 0;
+  visibility: hidden;
+}
+
+.invisible-full-degree-chord-button {
+  width: 90px;
+  visibility: hidden;
 }
 
 .roman-numeral {
