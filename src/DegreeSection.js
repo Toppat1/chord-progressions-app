@@ -92,33 +92,59 @@ function DegreeSection() {
   // Set a variable initially to 'G major', but can be changed using the setKeyText function
   const [keyText, setKeyText] = useState('G major');
 
+  // KEY SETTING
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState(keyText);
+
+  // Handle input change
+  const handleInputChange = e => {
+    setInputValue(e.target.value);
+  };
+
+  // Handle key press
+  const handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      setKeyText(inputValue);
+      setIsEditing(false);
+    }
+  };
+
+  // Handle button click
+  const handleButtonClick = () => {
+    setIsEditing(true);
+  };
+
   // Must accommodate getChord function for minor too, cant use I, ii etc
   return (
     <div className='degree-container'>
-      <button id='key-button'>{keyText}</button>
+      {isEditing ? (
+        <input type='text' value={inputValue} onChange={handleInputChange} onKeyPress={handleKeyPress} onBlur={() => setIsEditing(false)} autoFocus />
+      ) : (
+        <button id='key-button' onClick={handleButtonClick}>
+          {keyText}
+        </button>
+      )}
 
-      <button id='degree1' onClick={() => playChord(getChord(keyText, 1)[1])}>
+      <button id='degree1' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1)[1])}>
         {formatDegreeButton(getChord(keyText, 1))}
       </button>
-      <button id='degree2' onClick={() => playChord(getChord(keyText, 2)[1])}>
+      <button id='degree2' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2)[1])}>
         {formatDegreeButton(getChord(keyText, 2))}
       </button>
-      <button id='degree3' onClick={() => playChord(getChord(keyText, 3)[1])}>
+      <button id='degree3' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3)[1])}>
         {formatDegreeButton(getChord(keyText, 3))}
       </button>
-      <button id='degree4' onClick={() => playChord(getChord(keyText, 4)[1])}>
+      <button id='degree4' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4)[1])}>
         {formatDegreeButton(getChord(keyText, 4))}
       </button>
-      <button id='degree5' onClick={() => playChord(getChord(keyText, 5)[1])}>
+      <button id='degree5' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5)[1])}>
         {formatDegreeButton(getChord(keyText, 5))}
       </button>
-      <button id='degree6' onClick={() => playChord(getChord(keyText, 6)[1])}>
+      <button id='degree6' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6)[1])}>
         {formatDegreeButton(getChord(keyText, 6))}
       </button>
-
-      {/* Requires diminished chord integration, ternary won't work. Also needs support for sharps*/}
-
-      <button id='degree7' onClick={() => playChord(getChord(keyText, 7)[1])}>
+      <button id='degree7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7)[1])}>
         {formatDegreeButton(getChord(keyText, 7))}
       </button>
     </div>

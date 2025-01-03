@@ -90,3 +90,7 @@ button:hover {
   background-color: white;
   font-size: 20px;
 }
+
+.degree-chord-button {
+  width: 75px;
+}
