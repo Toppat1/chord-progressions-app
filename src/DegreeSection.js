@@ -90,7 +90,7 @@ function DegreeSection() {
   };
 
   // Set a variable initially to 'G major', but can be changed using the setKeyText function
-  const [keyText, setKeyText] = useState('C# major');
+  const [keyText, setKeyText] = useState('G major');
 
   // Must accommodate getChord function for minor too, cant use I, ii etc
   return (
