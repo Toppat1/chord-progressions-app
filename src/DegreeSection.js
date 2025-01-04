@@ -16,18 +16,18 @@ function DegreeSection() {
 
   // Maybe use chords object in future?
   const degreeChords = [
-    ['C', 'Cm', 'Cdim', 'Cdim7', 'Cm7b5', 'Csus2', 'Csus4', 'Caug', 'C/E', 'C/G', 'C7', 'Cm7'],
-    ['C#', 'C#m', 'C#dim', 'C#dim7', 'C#m7b5', 'C#sus2', 'C#sus4', 'C#aug', 'C#/F', 'C#/G#', 'C#7', 'C#m7'],
-    ['D', 'Dm', 'Ddim', 'Ddim7', 'Dm7b5', 'Dsus2', 'Dsus4', 'Daug', 'D/F#', 'D/A', 'D7', 'Dm7'],
-    ['D#', 'D#m', 'D#dim', 'D#dim7', 'D#m7b5', 'D#sus2', 'D#sus4', 'D#aug', 'D#/G', 'D#/A#', 'D#7', 'D#m7'],
-    ['E', 'Em', 'Edim', 'Edim7', 'Em7b5', 'Esus2', 'Esus4', 'Eaug', 'E/G#', 'E/B', 'E7', 'Em7'],
-    ['F', 'Fm', 'Fdim', 'Fdim7', 'Fm7b5', 'Fsus2', 'Fsus4', 'Faug', 'F/A', 'F/C', 'F7', 'Fm7'],
-    ['F#', 'F#m', 'F#dim', 'F#dim7', 'F#m7b5', 'F#sus2', 'F#sus4', 'F#aug', 'F#/A#', 'F#/C#', 'F#7', 'F#m7'],
-    ['G', 'Gm', 'Gdim', 'Gdim7', 'Gm7b5', 'Gsus2', 'Gsus4', 'Gaug', 'G/B', 'G/D', 'G7', 'Gm7'],
-    ['G#', 'G#m', 'G#dim', 'G#dim7', 'G#m7b5', 'G#sus2', 'G#sus4', 'G#aug', 'G#/C', 'G#/D#', 'G#7', 'G#m7'],
-    ['A', 'Am', 'Adim', 'Adim7', 'Am7b5', 'Asus2', 'Asus4', 'Aaug', 'A/C#', 'A/E', 'A7', 'Am7'],
-    ['A#', 'A#m', 'A#dim', 'A#dim7', 'A#m7b5', 'A#sus2', 'A#sus4', 'A#aug', 'A#/D', 'A#/F', 'A#7', 'A#m7'],
-    ['B', 'Bm', 'Bdim', 'Bdim7', 'Bm7b5', 'Bsus2', 'Bsus4', 'Baug', 'B/D#', 'B/F#', 'B7', 'Bm7'],
+    ['C', 'Cm', 'Cdim', 'Cdim7', 'Cm7b5', 'Csus2', 'Csus4', 'Caug', 'C/E', 'C/G', 'C7', 'Cm7', 'Cmaj7'],
+    ['C#', 'C#m', 'C#dim', 'C#dim7', 'C#m7b5', 'C#sus2', 'C#sus4', 'C#aug', 'C#/F', 'C#/G#', 'C#7', 'C#m7', 'C#maj7'],
+    ['D', 'Dm', 'Ddim', 'Ddim7', 'Dm7b5', 'Dsus2', 'Dsus4', 'Daug', 'D/F#', 'D/A', 'D7', 'Dm7', 'Dmaj7'],
+    ['D#', 'D#m', 'D#dim', 'D#dim7', 'D#m7b5', 'D#sus2', 'D#sus4', 'D#aug', 'D#/G', 'D#/A#', 'D#7', 'D#m7', 'D#maj7'],
+    ['E', 'Em', 'Edim', 'Edim7', 'Em7b5', 'Esus2', 'Esus4', 'Eaug', 'E/G#', 'E/B', 'E7', 'Em7', 'Emaj7'],
+    ['F', 'Fm', 'Fdim', 'Fdim7', 'Fm7b5', 'Fsus2', 'Fsus4', 'Faug', 'F/A', 'F/C', 'F7', 'Fm7', 'Fmaj7'],
+    ['F#', 'F#m', 'F#dim', 'F#dim7', 'F#m7b5', 'F#sus2', 'F#sus4', 'F#aug', 'F#/A#', 'F#/C#', 'F#7', 'F#m7', 'F#maj7'],
+    ['G', 'Gm', 'Gdim', 'Gdim7', 'Gm7b5', 'Gsus2', 'Gsus4', 'Gaug', 'G/B', 'G/D', 'G7', 'Gm7', 'Gmaj7'],
+    ['G#', 'G#m', 'G#dim', 'G#dim7', 'G#m7b5', 'G#sus2', 'G#sus4', 'G#aug', 'G#/C', 'G#/D#', 'G#7', 'G#m7', 'G#maj7'],
+    ['A', 'Am', 'Adim', 'Adim7', 'Am7b5', 'Asus2', 'Asus4', 'Aaug', 'A/C#', 'A/E', 'A7', 'Am7', 'Amaj7'],
+    ['A#', 'A#m', 'A#dim', 'A#dim7', 'A#m7b5', 'A#sus2', 'A#sus4', 'A#aug', 'A#/D', 'A#/F', 'A#7', 'A#m7', 'A#maj7'],
+    ['B', 'Bm', 'Bdim', 'Bdim7', 'Bm7b5', 'Bsus2', 'Bsus4', 'Baug', 'B/D#', 'B/F#', 'B7', 'Bm7', 'Bmaj7'],
   ];
 
   // From the key text and chord degree, return the chord and its degree
@@ -61,7 +61,12 @@ function DegreeSection() {
 
     // prettier-ignore
     switch (alteration) {
-      case '7°7/': // 
+      case '1inv':
+        chordType = 8;
+        degreeNumber = <span>{degreeNumber}<sup>6</sup></span>;
+        break
+
+      case '7°7/':
         chordType = 3;
         degreeNumber = <span>vii°<sup>7</sup>/{degreeNumber}</span>;
         break;
@@ -72,17 +77,20 @@ function DegreeSection() {
         break;
 
       case '7':
-        if (degreeNumber.includes('°')) {
-          chordType = 3;
-          degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
-        } else if (degreeNumber === degreeNumber.toUpperCase()) {
-          chordType = 10;
-          degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
-        } else if (degreeNumber === degreeNumber.toLowerCase()) {
-          chordType = 11;
-          degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
-        }
-        break;
+        switch (tonality){
+          case 'major':
+             if (degreeNumber.includes('°')) {
+              chordType = 4;
+              degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
+            }
+            else if (['I','IV'].includes(degreeNumber)){
+              chordType = 12;
+              degreeNumber = <span>{degreeNumber}M<sup>7</sup></span>;
+            } else if (degreeNumber === degreeNumber.toLowerCase()) {
+              chordType = 11;
+              degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
+            }}
+
         
       default:
         if (degreeNumber.includes('°')) {
@@ -147,6 +155,7 @@ function DegreeSection() {
     setIsEditing(true);
   };
 
+  // Make each div block an array with a function to append
   return (
     <div className='degree-section'>
       <div className='key-button-container'>
@@ -157,6 +166,29 @@ function DegreeSection() {
             {keyText}
           </button>
         )}
+      </div>
+      <div>
+        <button id='degree1-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 1, '1inv'))}
+        </button>
+        <button id='degree2-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 2, '1inv'))}
+        </button>
+        <button id='degree3-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 3, '1inv'))}
+        </button>
+        <button id='degree4-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 4, '1inv'))}
+        </button>
+        <button id='degree5-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 5, '1inv'))}
+        </button>
+        <button id='degree6-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 6, '1inv'))}
+        </button>
+        <button id='degree7-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7, '1inv')[1])}>
+          {formatDegreeButton(getChord(keyText, 7, '1inv'))}
+        </button>
       </div>
 
       <div>
