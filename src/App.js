@@ -25,11 +25,12 @@ function App() {
         <div>4</div>
         <div>5</div>
         <button onClick={() => newPlayChord('C')}>C</button>
-        <button onClick={() => newPlayChord('Cm')}>Cm</button>
-        <button onClick={() => newPlayChord('Caug')}>Caug</button>
+        <button onClick={() => newPlayChord('D#dim7')}>D#dim7</button>
+        <button onClick={() => newPlayChord('C#m7b5')}>C#m7b5</button>
         <button onClick={() => newPlayChord('Csus2')}>Csus2</button>
-        <button onClick={() => newPlayChord('C7')}>C7</button>
+        <button onClick={() => newPlayChord('Cdim')}>Cdim</button>
         <button onClick={() => newPlayChord('CM7')}>CM7</button>
+        <button onClick={() => newPlayChord('CmM7')}>CmM7</button>
       </div>
 
       {/* Degree Header */}

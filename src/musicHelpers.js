@@ -68,16 +68,16 @@ export const newPlayChord = chordName => {
 
   // Primary chord type checking
   if (type[0] === 'm') {
-    indexesToPlay = [...chordFormulae['Minor']]; // Create a copy of the array
+    indexesToPlay = [...chordFormulae['Minor']]; // [...] creates a copy of the array to avoid major chords remembering sus chords
     type = type.substring(1);
   } else if (type.slice(0, 3) === 'dim') {
-    indexesToPlay = [...chordFormulae['Diminished']]; // Create a copy of the array
-    type = type.substring(3);
+    indexesToPlay = [...chordFormulae['Diminished']];
+    type = type.includes('dim7') ? type : type.substring(3); // If the chord is Xdim7, leave the dim7 in to identify fully diminished 7th later
   } else if (type.slice(0, 3) === 'aug') {
-    indexesToPlay = [...chordFormulae['Augmented']]; // Create a copy of the array
+    indexesToPlay = [...chordFormulae['Augmented']];
     type = type.substring(3);
   } else {
-    indexesToPlay = [...chordFormulae['Major']]; // Create a copy of the array
+    indexesToPlay = [...chordFormulae['Major']];
   }
 
   // Additional chord alterations
@@ -87,6 +87,15 @@ export const newPlayChord = chordName => {
       type = type.substring(4);
     } else if (type.slice(0, 4) === 'sus2') {
       indexesToPlay[1] = 2;
+      type = type.substring(4);
+    } else if (type.slice(0, 3) === '7b5') {
+      // Half-diminished seventh
+      indexesToPlay[2] = 6; // Flatten the 5th, which was originally in a minor triad
+      indexesToPlay.push(10);
+      type = type.substring(3);
+    } else if (type.slice(0, 4) === 'dim7') {
+      // Fully-diminished seventh
+      indexesToPlay.push(9);
       type = type.substring(4);
     } else if (type.slice(0, 1) === '7') {
       // Dominant seventh
