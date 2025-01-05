@@ -27,10 +27,9 @@ function App() {
         <button onClick={() => newPlayChord('C')}>C</button>
         <button onClick={() => newPlayChord('D#dim7')}>D#dim7</button>
         <button onClick={() => newPlayChord('C#m7b5')}>C#m7b5</button>
-        <button onClick={() => newPlayChord('Csus2')}>Csus2</button>
-        <button onClick={() => newPlayChord('Cdim')}>Cdim</button>
-        <button onClick={() => newPlayChord('CM7')}>CM7</button>
         <button>{newGetChord('G major', 7)}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 5, 'sus4')[1])}>{newGetChord('G major', 5, 'sus4')}</button>
+        <button>{newGetChord('G major', 2, 'V/')}</button>
       </div>
 
       {/* Degree Header */}
