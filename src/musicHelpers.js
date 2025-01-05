@@ -106,7 +106,7 @@ export const newPlayChord = chordName => {
       indexesToPlay.push(11);
       type = type.substring(2);
     }
-  }
+  } // TO DO: FIRST/SECOND INVERSIONS AND UNRELATED NEW ROOT CHORDS, e.g. Am/G or Am7/G
 
   // Make an array for letter notes to play
   let notesToPlay = [];
