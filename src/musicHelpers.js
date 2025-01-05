@@ -132,11 +132,169 @@ export const newPlayChord = chordName => {
   synth1.triggerAttackRelease(notesToPlay, '16n');
 };
 
-export function secondNote(root, interval) {
-  const rootIndex = chromaticNotes.indexOf(root);
-  const note2Index = (rootIndex + interval) % 12;
+const diatonicChords = {
+  'major': [
+    ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'], // Diatonic chords
+    [2, 2, 1, 2, 2, 2, 1], // Scale semitone differences
+  ],
+  'minor': [
+    ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+    [2, 1, 2, 2, 1, 2, 2],
+  ],
+};
 
-  return `Root index of ${root} is ${rootIndex}, secondNote index is ${note2Index}: ${chromaticNotes[note2Index]}`;
+// Maybe use chords object in future?
+const degreeChords = [
+  ['C', 'Cm', 'Cdim', 'Cdim7', 'Cm7b5', 'Csus2', 'Csus4', 'Caug', 'C/E', 'C/G', 'C7', 'Cm7', 'Cmaj7'],
+  ['C#', 'C#m', 'C#dim', 'C#dim7', 'C#m7b5', 'C#sus2', 'C#sus4', 'C#aug', 'C#/F', 'C#/G#', 'C#7', 'C#m7', 'C#maj7'],
+  ['D', 'Dm', 'Ddim', 'Ddim7', 'Dm7b5', 'Dsus2', 'Dsus4', 'Daug', 'D/F#', 'D/A', 'D7', 'Dm7', 'Dmaj7'],
+  ['D#', 'D#m', 'D#dim', 'D#dim7', 'D#m7b5', 'D#sus2', 'D#sus4', 'D#aug', 'D#/G', 'D#/A#', 'D#7', 'D#m7', 'D#maj7'],
+  ['E', 'Em', 'Edim', 'Edim7', 'Em7b5', 'Esus2', 'Esus4', 'Eaug', 'E/G#', 'E/B', 'E7', 'Em7', 'Emaj7'],
+  ['F', 'Fm', 'Fdim', 'Fdim7', 'Fm7b5', 'Fsus2', 'Fsus4', 'Faug', 'F/A', 'F/C', 'F7', 'Fm7', 'Fmaj7'],
+  ['F#', 'F#m', 'F#dim', 'F#dim7', 'F#m7b5', 'F#sus2', 'F#sus4', 'F#aug', 'F#/A#', 'F#/C#', 'F#7', 'F#m7', 'F#maj7'],
+  ['G', 'Gm', 'Gdim', 'Gdim7', 'Gm7b5', 'Gsus2', 'Gsus4', 'Gaug', 'G/B', 'G/D', 'G7', 'Gm7', 'Gmaj7'],
+  ['G#', 'G#m', 'G#dim', 'G#dim7', 'G#m7b5', 'G#sus2', 'G#sus4', 'G#aug', 'G#/C', 'G#/D#', 'G#7', 'G#m7', 'G#maj7'],
+  ['A', 'Am', 'Adim', 'Adim7', 'Am7b5', 'Asus2', 'Asus4', 'Aaug', 'A/C#', 'A/E', 'A7', 'Am7', 'Amaj7'],
+  ['A#', 'A#m', 'A#dim', 'A#dim7', 'A#m7b5', 'A#sus2', 'A#sus4', 'A#aug', 'A#/D', 'A#/F', 'A#7', 'A#m7', 'A#maj7'],
+  ['B', 'Bm', 'Bdim', 'Bdim7', 'Bm7b5', 'Bsus2', 'Bsus4', 'Baug', 'B/D#', 'B/F#', 'B7', 'Bm7', 'Bmaj7'],
+];
+
+// From the key text and chord degree, return the chord and its degree
+export const getChord = (keyText, degreeDigit, alteration = '') => {
+  // Find the key and whether it is major/minor
+  const key = keyText.split(' ')[0];
+  const tonality = keyText.split(' ')[1].toLowerCase();
+
+  // Find the index of the I chord
+  const Iindex = degreeChords.findIndex(chordGroup => chordGroup[0].includes(key));
+
+  // Find the index of the degree based on its number degree
+  const degreeIndex = degreeDigit - 1;
+  let degreeNumber = diatonicChords[tonality][0][degreeIndex];
+
+  // The wanted chord's position is the I index + its degree index
+
+  let degreeChordJumps = 0;
+  for (let i = 0; i < degreeIndex; i++) {
+    degreeChordJumps += diatonicChords[tonality][1][i];
+  }
+
+  // If a sharp is present, raise the tone
+  degreeChordJumps += alteration.includes('#') ? 1 : 0;
+  degreeChordJumps += alteration.includes('7°7/') ? -1 : 0;
+
+  const chordIndex = (Iindex + degreeChordJumps) % degreeChords.length;
+
+  // Decide which type of chord to return, e.g. ii = minor, IV = major
+  let chordType;
+
+  // prettier-ignore
+  switch (alteration) {
+      // INCORRECT FOR MINOR CHORDS
+      case '1inv':
+        chordType = 8;
+        degreeNumber = <span>{degreeNumber}<sup>6</sup></span>;
+        break;
+
+      case '2inv':
+        chordType = 9;
+        degreeNumber = <span>{degreeNumber}<sup>6</sup><sub>4</sub></span>;
+        break;
+
+      case '7°7/':
+        chordType = 3;
+        degreeNumber = <span>vii°<sup>7</sup>/{degreeNumber}</span>;
+        break;
+
+      case '#mø7':
+        chordType = 4;
+        degreeNumber = <span>#{degreeNumber.toLowerCase()}<sup>ø7</sup></span>;
+        break;
+
+      // case '7':
+      //   switch (tonality){
+      //     case 'major':
+      //        if (degreeNumber.includes('°')) {
+      //         chordType = 4;
+      //         degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
+      //       }
+      //       else if (['I','IV'].includes(degreeNumber)){
+      //         chordType = 12;
+      //         degreeNumber = <span>{degreeNumber}M<sup>7</sup></span>;
+      //       } else if (degreeNumber === degreeNumber.toLowerCase()) {
+      //         chordType = 11;
+      //         degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
+      //       }}
+
+        
+      default:
+        if (degreeNumber.includes('°')) {
+          chordType = 2;
+        } else if (degreeNumber === degreeNumber.toUpperCase()) {
+          chordType = 0;
+        } else if (degreeNumber === degreeNumber.toLowerCase()) {
+          chordType = 1;
+        }
+        break;
+    }
+
+  // Return the degree and chord on two separate lines
+  console.log({
+    'KeyText': keyText,
+    'DegreeDigit': degreeDigit,
+    'DegreeNumber': degreeNumber,
+    'Key': key,
+    'Tonality': tonality,
+    'Iindex': Iindex,
+    'DegreeIndex': degreeIndex,
+    'ChordIndex': chordIndex,
+    'chordType': chordType,
+    'Chord returned': degreeChords[chordIndex][chordType],
+  });
+  return [degreeNumber, degreeChords[chordIndex][chordType]];
+};
+
+const scales = {
+  'major': [
+    ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'], // Diatonic chords
+    [0, 2, 4, 5, 7, 9, 11], // Indices of notes in scale
+  ],
+  'minor': [
+    ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+    [0, 2, 3, 5, 7, 8, 10],
+  ],
+};
+
+export function newGetChord(key, degreeDigit, alteration) {
+  const keyRoot = key.split(' ')[0]; // E.g. G in G Major
+  const keyTonality = key.split(' ')[1].toLowerCase(); // Major or minor
+
+  // Chord's index position in scale
+  const chordPos = degreeDigit - 1;
+
+  // From degreeDigit (e.g. 3), find the roman numeral (e.g. iii)
+  const degree = scales[keyTonality][0][chordPos];
+
+  // Find index of I chord's root note in chromaticNotes e.g. C is chromatic index 0
+  const rootNoteIndex = chromaticNotes.indexOf(keyRoot);
+
+  // Find root note of wanted chord
+  const chordRoot = chromaticNotes[(rootNoteIndex + scales[keyTonality][1][chordPos]) % 12];
+
+  // Find chord tonality
+  let chordTonality;
+  if (degree.includes('°')) {
+    chordTonality = 'dim';
+  } else if (degree === degree.toLowerCase()) {
+    chordTonality = 'm';
+  } else if (degree === degree.toUpperCase()) {
+    chordTonality = '';
+  }
+
+  // Set final chord roman numeral and name
+  const chordNumeral = degree;
+  const chordName = chordRoot + chordTonality;
+  return `chordNumeral is ${chordNumeral}, chordName is ${chordName}. Root note index = ${rootNoteIndex}. Chord root = ${chordRoot}`;
 }
 
 // Array of notes

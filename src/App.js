@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import ButtonGrid from './ButtonGrid.js';
-import { playNote, playChord, playSequence, notes, chords, secondNote, newPlayChord } from './musicHelpers.js';
+import { playNote, playChord, playSequence, notes, chords, newPlayChord, newGetChord } from './musicHelpers.js';
 import DegreeSection from './DegreeSection.js';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
         <button onClick={() => newPlayChord('Csus2')}>Csus2</button>
         <button onClick={() => newPlayChord('Cdim')}>Cdim</button>
         <button onClick={() => newPlayChord('CM7')}>CM7</button>
-        <button onClick={() => newPlayChord('CmM7')}>CmM7</button>
+        <button>{newGetChord('G major', 7)}</button>
       </div>
 
       {/* Degree Header */}
