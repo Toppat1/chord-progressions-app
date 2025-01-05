@@ -61,10 +61,16 @@ function DegreeSection() {
 
     // prettier-ignore
     switch (alteration) {
+      // INCORRECT FOR MINOR CHORDS
       case '1inv':
         chordType = 8;
         degreeNumber = <span>{degreeNumber}<sup>6</sup></span>;
-        break
+        break;
+
+      case '2inv':
+        chordType = 9;
+        degreeNumber = <span>{degreeNumber}<sup>6</sup><sub>4</sub></span>;
+        break;
 
       case '7°7/':
         chordType = 3;
@@ -76,20 +82,20 @@ function DegreeSection() {
         degreeNumber = <span>#{degreeNumber.toLowerCase()}<sup>ø7</sup></span>;
         break;
 
-      case '7':
-        switch (tonality){
-          case 'major':
-             if (degreeNumber.includes('°')) {
-              chordType = 4;
-              degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
-            }
-            else if (['I','IV'].includes(degreeNumber)){
-              chordType = 12;
-              degreeNumber = <span>{degreeNumber}M<sup>7</sup></span>;
-            } else if (degreeNumber === degreeNumber.toLowerCase()) {
-              chordType = 11;
-              degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
-            }}
+      // case '7':
+      //   switch (tonality){
+      //     case 'major':
+      //        if (degreeNumber.includes('°')) {
+      //         chordType = 4;
+      //         degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
+      //       }
+      //       else if (['I','IV'].includes(degreeNumber)){
+      //         chordType = 12;
+      //         degreeNumber = <span>{degreeNumber}M<sup>7</sup></span>;
+      //       } else if (degreeNumber === degreeNumber.toLowerCase()) {
+      //         chordType = 11;
+      //         degreeNumber = <span>{degreeNumber}<sup>7</sup></span>;
+      //       }}
 
         
       default:
@@ -155,6 +161,48 @@ function DegreeSection() {
     setIsEditing(true);
   };
 
+  // Return a row of buttons with a common chord alteration
+
+  // [1,2,2,2,0,0,2,1]
+  const chordRow = (alteration, invisPattern) => {
+    let chordRowButtons = [];
+
+    for (let i = 0; i < (invisPattern ? invisPattern.length : 7); i++) {
+      const chordInfo = getChord(keyText, i + 1, alteration); // Contains [chordRoman, chordName]
+      const chordName = chordInfo[1];
+
+      let itemToPush;
+
+      if (!invisPattern || invisPattern[i] === undefined) {
+        itemToPush = (
+          <button className='degree-chord-button' onClick={() => playChord(chordName)}>
+            {formatDegreeButton(chordInfo)}
+          </button>
+        );
+      } else {
+        switch (invisPattern[i]) {
+          case 0:
+            itemToPush = (
+              <button className='degree-chord-button' onClick={() => playChord(chordName)}>
+                {formatDegreeButton(chordInfo)}
+              </button>
+            );
+            break;
+
+          case 1:
+            itemToPush = <button id='invisible-half' className='invisible-half-degree-chord-button'></button>;
+            break;
+
+          case 2:
+            itemToPush = <button id='invisible-full' className='invisible-full-degree-chord-button'></button>;
+            break;
+        }
+      }
+      chordRowButtons.push(itemToPush);
+    }
+    return <div>{chordRowButtons}</div>;
+  };
+
   // Make each div block an array with a function to append
   return (
     <div className='degree-section'>
@@ -167,53 +215,11 @@ function DegreeSection() {
           </button>
         )}
       </div>
-      <div>
-        <button id='degree1-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 1, '1inv'))}
-        </button>
-        <button id='degree2-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 2, '1inv'))}
-        </button>
-        <button id='degree3-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 3, '1inv'))}
-        </button>
-        <button id='degree4-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 4, '1inv'))}
-        </button>
-        <button id='degree5-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 5, '1inv'))}
-        </button>
-        <button id='degree6-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 6, '1inv'))}
-        </button>
-        <button id='degree7-1inv' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7, '1inv')[1])}>
-          {formatDegreeButton(getChord(keyText, 7, '1inv'))}
-        </button>
-      </div>
 
-      <div>
-        <button id='degree1' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1)[1])}>
-          {formatDegreeButton(getChord(keyText, 1))}
-        </button>
-        <button id='degree2' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2)[1])}>
-          {formatDegreeButton(getChord(keyText, 2))}
-        </button>
-        <button id='degree3' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3)[1])}>
-          {formatDegreeButton(getChord(keyText, 3))}
-        </button>
-        <button id='degree4' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4)[1])}>
-          {formatDegreeButton(getChord(keyText, 4))}
-        </button>
-        <button id='degree5' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5)[1])}>
-          {formatDegreeButton(getChord(keyText, 5))}
-        </button>
-        <button id='degree6' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6)[1])}>
-          {formatDegreeButton(getChord(keyText, 6))}
-        </button>
-        <button id='degree7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7)[1])}>
-          {formatDegreeButton(getChord(keyText, 7))}
-        </button>
-      </div>
+      {chordRow('2inv')}
+      {chordRow('1inv')}
+      {chordRow()} 
+
       <div>
         <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
         <button id='invisible-full' className='invisible-full-degree-chord-button'></button>

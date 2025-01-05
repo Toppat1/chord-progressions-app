@@ -45,12 +45,93 @@ export function playSequence(notes) {
   Tone.Transport.start(now);
 }
 
+// Array of all chromatic notes
+const chromaticNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+const chordFormulae = { 'Major': [0, 4, 7], 'Minor': [0, 3, 7], 'Diminished': [0, 3, 6], 'Augmented': [0, 4, 8] };
+
+// Initialize Tone.js context and PolySynth instance once
+await Tone.start();
+const synth1 = new Tone.PolySynth(Tone.Synth).toDestination();
+
+export const newPlayChord = chordName => {
+  // E.g. 'C' --> Major with C as the root note --> 'C': ['C4', 'E4', 'G4'] --> Play C Major
+
+  // Find chord root
+  const root = chordName.includes('#') ? chordName.slice(0, 2) : chordName.slice(0, 1);
+
+  // Find chord type/alterations
+  let type = chordName.slice(root.length);
+
+  // Make an array of which note indexes to play based one of the 4 primary chord types
+  let indexesToPlay;
+
+  // Primary chord type checking
+  if (type[0] === 'm') {
+    indexesToPlay = [...chordFormulae['Minor']]; // Create a copy of the array
+    type = type.substring(1);
+  } else if (type.slice(0, 3) === 'dim') {
+    indexesToPlay = [...chordFormulae['Diminished']]; // Create a copy of the array
+    type = type.substring(3);
+  } else if (type.slice(0, 3) === 'aug') {
+    indexesToPlay = [...chordFormulae['Augmented']]; // Create a copy of the array
+    type = type.substring(3);
+  } else {
+    indexesToPlay = [...chordFormulae['Major']]; // Create a copy of the array
+  }
+
+  // Additional chord alterations
+  while (type !== '') {
+    if (type.slice(0, 4) === 'sus4') {
+      indexesToPlay[1] = 5;
+      type = type.substring(4);
+    } else if (type.slice(0, 4) === 'sus2') {
+      indexesToPlay[1] = 2;
+      type = type.substring(4);
+    } else if (type.slice(0, 1) === '7') {
+      // Dominant seventh
+      indexesToPlay.push(10);
+      type = type.substring(1);
+    } else if (type.slice(0, 2) === 'M7') {
+      // Major seventh
+      indexesToPlay.push(11);
+      type = type.substring(2);
+    }
+  }
+
+  // Make an array for letter notes to play
+  let notesToPlay = [];
+
+  // Find index of root note in chromaticNotes e.g. C in Csus4 is chromatic index 0
+  const rootNoteIndex = chromaticNotes.indexOf(root);
+
+  // Shift the note indexes by the root note chromatic index
+  indexesToPlay.forEach(noteIndex => {
+    notesToPlay.push(chromaticNotes[(noteIndex + rootNoteIndex) % 12]);
+  });
+
+  // Algorithm to logically add on the octave number of each note
+  notesToPlay = notesToPlay.map((note, index) => {
+    if (chromaticNotes.indexOf(note) < chromaticNotes.indexOf(notesToPlay[0])) {
+      return note + '5';
+    } else {
+      return note + '4';
+    }
+  });
+
+  // Play the chord notes in the array
+  synth1.triggerAttackRelease(notesToPlay, '16n');
+};
+
+export function secondNote(root, interval) {
+  const rootIndex = chromaticNotes.indexOf(root);
+  const note2Index = (rootIndex + interval) % 12;
+
+  return `Root index of ${root} is ${rootIndex}, secondNote index is ${note2Index}: ${chromaticNotes[note2Index]}`;
+}
+
 // Array of notes
-export const notes = [
-  'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4',
-  'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5',
-  'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5'
-];
+export const notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5'];
 
 // Array of chords
 export const chords = {
@@ -193,6 +274,20 @@ export const chords = {
     'A/C#': ['C#5', 'E5', 'A5'],
     'A#/D': ['D5', 'F5', 'A#5'],
     'B/D#': ['D#5', 'F#5', 'B5'],
+  },
+  'Second inversion chords': {
+    'C/G': ['G4', 'C5', 'E5'],
+    'C#/G#': ['G#4', 'C#5', 'F5'],
+    'D/A': ['A4', 'D5', 'F#5'],
+    'D#/A#': ['A#4', 'D#5', 'G5'],
+    'E/B': ['B4', 'E5', 'G#5'],
+    'F/C': ['C5', 'F5', 'A5'],
+    'F#/C#': ['C#5', 'F#5', 'A#5'],
+    'G/D': ['D5', 'G5', 'B5'],
+    'G#/D#': ['D#5', 'G#5', 'C6'],
+    'A/E': ['E5', 'A5', 'C#6'],
+    'A#/F': ['F5', 'A#5', 'D6'],
+    'B/F#': ['F#5', 'B5', 'D#6'],
   },
   'Major seventh chords': {
     'Cmaj7': ['C4', 'E4', 'G4', 'B4'],
