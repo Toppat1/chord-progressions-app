@@ -81,19 +81,35 @@ function DegreeSection() {
     return <div>{chordRowButtons}</div>;
   };
 
-  const newChordRow = (alteration, invisPattern) => {
+  const newChordRow = (alteration = '', invisPattern) => {
     let chordRowButtons = [];
+    const indentRow = alteration.includes('/') ? true : false;
 
-    for (let i = 0; i < 7; i++) {
-      const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
-      const chordName = chordInfo[1];
+    if (indentRow === true) {
+      chordRowButtons.push(<button className='invisible-half-degree-chord-button'></button>);
 
-      chordRowButtons.push(
-        <button className='degree-chord-button' onClick={() => newPlayChord(chordName)}>
-          {formatDegreeButton(chordInfo)}
-        </button>
-      );
+      for (let i = 1; i < 7; i++) {
+        const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
+        const chordName = chordInfo[1];
+        chordRowButtons.push(
+          <button className='degree-chord-button' onClick={() => newPlayChord(chordName)}>
+            {formatDegreeButton(chordInfo)}
+          </button>
+        );
+      }
+    } else {
+      for (let i = 0; i < 7; i++) {
+        const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
+        const chordName = chordInfo[1];
+
+        chordRowButtons.push(
+          <button className='degree-chord-button' onClick={() => newPlayChord(chordName)}>
+            {formatDegreeButton(chordInfo)}
+          </button>
+        );
+      }
     }
+
     return <div>{chordRowButtons}</div>;
   };
 
@@ -113,6 +129,9 @@ function DegreeSection() {
       {chordRow('2inv')}
       {chordRow('1inv')}
       {newChordRow()}
+      
+      {newChordRow('V/')}
+      {newChordRow('vii°7/')}
 
       <div>
         <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
@@ -129,7 +148,6 @@ function DegreeSection() {
         <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
       </div>
       {newChordRow('7')}
-      {newChordRow('V/')}
       {newChordRow('sus2')}
       {newChordRow('sus4')}
     </div>

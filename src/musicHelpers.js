@@ -245,19 +245,6 @@ export const getChord = (keyText, degreeDigit, alteration = '') => {
         break;
     }
 
-  // Return the degree and chord on two separate lines
-  console.log({
-    'KeyText': keyText,
-    'DegreeDigit': degreeDigit,
-    'DegreeNumber': degreeNumber,
-    'Key': key,
-    'Tonality': tonality,
-    'Iindex': Iindex,
-    'DegreeIndex': degreeIndex,
-    'ChordIndex': chordIndex,
-    'chordType': chordType,
-    'Chord returned': degreeChords[chordIndex][chordType],
-  });
   return [degreeNumber, degreeChords[chordIndex][chordType]];
 };
 
@@ -277,15 +264,18 @@ const scales = {
   'harmonic minor': [
     ['i', 'ii°', 'III+', 'iv', 'V', 'VI', 'vii°'],
     [0, 2, 3, 5, 7, 8, 11],
+    ['mmaj7', 'ø7', 'maj7+', 'm7', '7', 'maj7', 'dim7'],
   ],
   // Melodic minor
   'melodic minor': [
     ['i', 'ii', 'III+', 'IV', 'V', 'vi°', 'vii°'],
     [0, 2, 3, 5, 7, 9, 11],
+    ['mmaj7', 'm7', 'maj7+', 'maj7', '7', 'ø7', 'dim7'],
   ],
 };
 
 export function newGetChord(key, degreeDigit, alteration = '') {
+  //console.log(`In key ${key}, searching for chord in degree ${degreeDigit} with alteration ${alteration}`)
   key = key.toLowerCase();
   const keyParts = key.split(' ');
 
@@ -304,6 +294,11 @@ export function newGetChord(key, degreeDigit, alteration = '') {
   // Find root note of wanted chord
   const chordRoot = chromaticNotes[(rootNoteIndex + scales[keyTonality][1][chordPos]) % 12];
 
+  // Find index of target chord's root note in chromaticNotes
+  const chordRootIndex = chromaticNotes.indexOf(chordRoot);
+
+  //console.log(`Okay, that chord start with ${chordRoot}. The degree is ${degree}`)
+
   // Find chord tonality
   let chordTonality;
   if (degree.includes('°')) {
@@ -316,6 +311,8 @@ export function newGetChord(key, degreeDigit, alteration = '') {
     chordTonality = '';
   }
 
+  console.log(`The wanted chord's tonality is ${chordTonality}`);
+
   // Handle alterations and set final chord roman numeral and name
   let chordNumeral;
   let chordName;
@@ -326,13 +323,19 @@ export function newGetChord(key, degreeDigit, alteration = '') {
     chordNumeral = alteration + degree;
     chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : `${chordRoot} major`, 5, '7')[1];
   } else if (alteration === '7') {
+    //console.log(`Finding ${degree+alteration}'s Numeral. The chordPos is ${chordPos}. Key tonality of this target chord is ${keyTonality}`)
     chordNumeral = degree + (scales[keyTonality][2][chordPos] === 'm7' ? '7' : scales[keyTonality][2][chordPos]);
+    //console.log(`The wanted chord's numeral is ${chordNumeral}`)
     chordName = chordRoot + scales[keyTonality][2][chordPos];
+  } else if (alteration === 'vii°7/') {
+    chordNumeral = alteration + degree;
+    chordName = chromaticNotes.at(chordRootIndex - 1) + 'dim7';
   } else {
     chordNumeral = degree + alteration;
     chordName = chordRoot + chordTonality + alteration;
   }
 
+  console.log([key, degreeDigit, alteration, chordNumeral, chordName]);
   return [chordNumeral, chordName];
 }
 
@@ -451,7 +454,7 @@ export const chords = {
     'G#dim7': ['G#4', 'B4', 'D5', 'F5'],
     'Adim7': ['A4', 'C4', 'D#5', 'F#5'],
     'A#dim7': ['A#4', 'C#5', 'E5', 'G5'],
-    'Bdim7': ['B4', 'D5', 'F5', 'A5'],
+    'Bdim7': ['B4', 'D5', 'F5', 'G#5'],
   },
   'Suspended 4th chords': {
     'Csus4': ['C4', 'F4', 'G4'],
