@@ -308,12 +308,12 @@ export function newGetChord(key, degreeDigit, alteration = '') {
   let chordTonality;
   if (degree.includes('°')) {
     chordTonality = 'dim';
+  } else if (degree.includes('+')) {
+    chordTonality = 'aug';
   } else if (degree === degree.toLowerCase()) {
     chordTonality = 'm';
   } else if (degree === degree.toUpperCase()) {
     chordTonality = '';
-  } else if (degree.includes('+')) {
-    chordTonality = 'aug';
   }
 
   // Handle alterations and set final chord roman numeral and name
@@ -321,10 +321,10 @@ export function newGetChord(key, degreeDigit, alteration = '') {
   let chordName;
   if (alteration === 'V/') {
     chordNumeral = alteration + degree;
-    chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : chordRoot, 5)[1];
+    chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : `${chordRoot} major`, 5)[1];
   } else if (alteration === 'V7/') {
     chordNumeral = alteration + degree;
-    chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : chordRoot, 5, '7')[1];
+    chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : `${chordRoot} major`, 5, '7')[1];
   } else if (alteration === '7') {
     chordNumeral = degree + scales[keyTonality][2][chordPos];
     chordName = chordRoot + scales[keyTonality][2][chordPos];
