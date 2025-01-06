@@ -67,7 +67,7 @@ export const newPlayChord = chordName => {
   let indexesToPlay;
 
   // Primary chord type checking
-  if (type[0] === 'm') {
+  if (type[0] === 'm' && type.slice(0, 3) !== 'maj') {
     indexesToPlay = [...chordFormulae['Minor']]; // [...] creates a copy of the array to avoid major chords remembering sus chords
     type = type.substring(1);
   } else if (type.slice(0, 3) === 'dim') {
@@ -80,7 +80,7 @@ export const newPlayChord = chordName => {
     indexesToPlay = [...chordFormulae['Major']];
   }
 
-  // Additional chord alterations
+  // Additional chord alterations, maybe change to explicit index groups directly?
   while (type !== '') {
     if (type.slice(0, 4) === 'sus4') {
       indexesToPlay[1] = 5;
@@ -90,21 +90,28 @@ export const newPlayChord = chordName => {
       type = type.substring(4);
     } else if (type.slice(0, 3) === '7b5') {
       // Half-diminished seventh
-      indexesToPlay[2] = 6; // Flatten the 5th, which was originally in a minor triad
-      indexesToPlay.push(10);
+      indexesToPlay = [0, 3, 6, 10];
       type = type.substring(3);
+    } else if (type.slice(0, 2) === 'ø7') {
+      // Half-diminished seventh in slashed circle form
+      indexesToPlay = [0, 3, 6, 10];
+      type = type.substring(2);
     } else if (type.slice(0, 4) === 'dim7') {
       // Fully-diminished seventh
       indexesToPlay.push(9);
       type = type.substring(4);
-    } else if (type.slice(0, 1) === '7') {
-      // Dominant seventh
-      indexesToPlay.push(10);
-      type = type.substring(1);
+    } else if (type.slice(0, 4) === 'maj7') {
+      // Major seventh with maj7 notation
+      indexesToPlay.push(11);
+      type = type.substring(4);
     } else if (type.slice(0, 2) === 'M7') {
       // Major seventh
       indexesToPlay.push(11);
       type = type.substring(2);
+    } else if (type.slice(0, 1) === '7') {
+      // Dominant seventh
+      indexesToPlay.push(10);
+      type = type.substring(1);
     }
   } // TO DO: FIRST/SECOND INVERSIONS AND UNRELATED NEW ROOT CHORDS, e.g. Am/G or Am7/G
 
@@ -120,7 +127,7 @@ export const newPlayChord = chordName => {
   });
 
   // Algorithm to logically add on the octave number of each note
-  notesToPlay = notesToPlay.map((note, index) => {
+  notesToPlay = notesToPlay.map(note => {
     if (chromaticNotes.indexOf(note) < chromaticNotes.indexOf(notesToPlay[0])) {
       return note + '5';
     } else {
@@ -258,30 +265,44 @@ const scales = {
   'major': [
     ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'], // Diatonic chords
     [0, 2, 4, 5, 7, 9, 11], // Indices of notes in scale
+    ['maj7', 'm7', 'm7', 'maj7', '7', 'm7', 'ø7'],
   ],
+  // Natural minor
   'minor': [
     ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
     [0, 2, 3, 5, 7, 8, 10],
+    ['m7', 'ø7', 'maj7', 'm7', 'm7', 'maj7', '7'],
+  ],
+  // Harmonic minor
+  'harmonic minor': [
+    ['i', 'ii°', 'III+', 'iv', 'V', 'VI', 'vii°'],
+    [0, 2, 3, 5, 7, 8, 11],
+  ],
+  // Melodic minor
+  'melodic minor': [
+    ['i', 'ii', 'III+', 'IV', 'V', 'vi°', 'vii°'],
+    [0, 2, 3, 5, 7, 9, 11],
   ],
 };
 
 export function newGetChord(key, degreeDigit, alteration = '') {
-  const keyRoot = key.split(' ')[0]; // E.g. G in G Major
-  const keyTonality = key.split(' ')[1].toLowerCase(); // Major or minor
+  key = key.toLowerCase();
+  const keyParts = key.split(' ');
 
-  // Chord's index position in tonality scale
-  const chordTonalityIndex = degreeDigit - 1;
+  const keyRoot = keyParts[0].toUpperCase(); // E.g. G in G Major
+  const keyTonality = keyParts.slice(1).join(' '); // Major or natural/harmonic/melodic minor
+
+  // Chord's index position in scale
+  const chordPos = degreeDigit - 1;
 
   // From degreeDigit (e.g. 3), find the roman numeral (e.g. iii)
-  const degree = scales[keyTonality][0][chordTonalityIndex];
+  const degree = scales[keyTonality][0][chordPos];
 
-  // Find index of I chord's root note in chromatic scale, e.g. C is chromatic index 0
-  const keyRootNoteIndexInChromatic = chromaticNotes.indexOf(keyRoot);
+  // Find index of I chord's root note in chromaticNotes e.g. C is chromatic index 0
+  const rootNoteIndex = chromaticNotes.indexOf(keyRoot);
 
   // Find root note of wanted chord
-  const chordRootIndexInTonality = scales[keyTonality][1][chordTonalityIndex] % 7; // Chord root index in tonality scale (major or minor)
-  const chordRootIndexInChromatic = (keyRootNoteIndexInChromatic + scales[keyTonality][1][chordTonalityIndex]) % 12; // Chord root index in chromatic scale
-  const chordRoot = chromaticNotes[chordRootIndexInChromatic];
+  const chordRoot = chromaticNotes[(rootNoteIndex + scales[keyTonality][1][chordPos]) % 12];
 
   // Find chord tonality
   let chordTonality;
@@ -291,25 +312,28 @@ export function newGetChord(key, degreeDigit, alteration = '') {
     chordTonality = 'm';
   } else if (degree === degree.toUpperCase()) {
     chordTonality = '';
+  } else if (degree.includes('+')) {
+    chordTonality = 'aug';
   }
 
-  // Set final chord roman numeral and name depending on alterations
+  // Handle alterations and set final chord roman numeral and name
   let chordNumeral;
   let chordName;
-  let secDomRootIndexInTonality;
-  let secDomRootIndexInChromatic;
-
   if (alteration === 'V/') {
-    secDomRootIndexInTonality = (chordRootIndexInTonality + 4) % 7; // Secondary dominant's root index in tonality scale
-    secDomRootIndexInChromatic = (keyRootNoteIndexInChromatic + scales[keyTonality][1][secDomRootIndexInTonality]) % 12;
     chordNumeral = alteration + degree;
-    chordName = '-----' + chromaticNotes[(keyRootNoteIndexInChromatic + scales[keyTonality][1][chordTonalityIndex] + secDomRootIndexInChromatic) % 12] + '-----';
+    chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : chordRoot, 5)[1];
+  } else if (alteration === 'V7/') {
+    chordNumeral = alteration + degree;
+    chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : chordRoot, 5, '7')[1];
+  } else if (alteration === '7') {
+    chordNumeral = degree + scales[keyTonality][2][chordPos];
+    chordName = chordRoot + scales[keyTonality][2][chordPos];
   } else {
     chordNumeral = degree + alteration;
     chordName = chordRoot + chordTonality + alteration;
   }
 
-  return [chordNumeral, chordName, keyRootNoteIndexInChromatic, chordRootIndexInTonality, secDomRootIndexInTonality, secDomRootIndexInChromatic];
+  return [chordNumeral, chordName];
 }
 
 // Array of notes

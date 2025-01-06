@@ -10,6 +10,13 @@ function App() {
       {/* Title Header */}
       <div className='title-header'>
         <h1>Chord Progressions</h1>
+        <button onClick={() => newPlayChord(newGetChord('G major', 1, '7')[1])}>{newGetChord('G major', 1, '7')}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 2, '7')[1])}>{newGetChord('G major', 2, '7')}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 3, '7')[1])}>{newGetChord('G major', 3, '7')}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 4, '7')[1])}>{newGetChord('G major', 4, '7')}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 5, '7')[1])}>{newGetChord('G major', 5, '7')}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 6, '7')[1])}>{newGetChord('G major', 6, '7')}</button>
+        <button onClick={() => newPlayChord(newGetChord('G major', 7, '7')[1])}>{newGetChord('G major', 7, '7')}</button>
       </div>
 
       {/* Piano Header */}
@@ -29,7 +36,6 @@ function App() {
         <button onClick={() => newPlayChord('C#m7b5')}>C#m7b5</button>
         <button>{newGetChord('G major', 7)}</button>
         <button onClick={() => newPlayChord(newGetChord('G major', 5, 'sus4')[1])}>{newGetChord('G major', 5, 'sus4')}</button>
-        <button>{newGetChord('G major', 2, 'V/')}</button>
       </div>
 
       {/* Degree Header */}
