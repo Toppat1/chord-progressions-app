@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
-import { playNote, playChord, playSequence, notes, chords, getChord } from './musicHelpers.js';
+import { playNote, playChord, playSequence, notes, chords, getChord, newGetChord, newPlayChord } from './musicHelpers.js';
 
 function DegreeSection() {
-  
-
   // Take in a degree and chord, and return them one on top of the other to be displayed on the degree button
   const formatDegreeButton = ([degreeDigit, chord]) => {
     return (
@@ -83,6 +81,22 @@ function DegreeSection() {
     return <div>{chordRowButtons}</div>;
   };
 
+  const newChordRow = (alteration, invisPattern) => {
+    let chordRowButtons = [];
+
+    for (let i = 0; i < 7; i++) {
+      const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
+      const chordName = chordInfo[1];
+
+      chordRowButtons.push(
+        <button className='degree-chord-button' onClick={() => newPlayChord(chordName)}>
+          {formatDegreeButton(chordInfo)}
+        </button>
+      );
+    }
+    return <div>{chordRowButtons}</div>;
+  };
+
   // Make each div block an array with a function to append
   return (
     <div className='degree-section'>
@@ -98,7 +112,7 @@ function DegreeSection() {
 
       {chordRow('2inv')}
       {chordRow('1inv')}
-      {chordRow()} 
+      {newChordRow()}
 
       <div>
         <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
@@ -114,29 +128,8 @@ function DegreeSection() {
         <button id='invisible-full' className='invisible-full-degree-chord-button'></button>
         <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
       </div>
-      <div>
-        <button id='degree1-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 1, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 1, '7'))}
-        </button>
-        <button id='degree2-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 2, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 2, '7'))}
-        </button>
-        <button id='degree3-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 3, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 3, '7'))}
-        </button>
-        <button id='degree4-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 4, '7'))}
-        </button>
-        <button id='degree5-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 5, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 5, '7'))}
-        </button>
-        <button id='degree6-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 6, '7'))}
-        </button>
-        <button id='degree7-7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 7, '7')[1])}>
-          {formatDegreeButton(getChord(keyText, 7, '7'))}
-        </button>
-      </div>
+      {newChordRow('7')}
+      {newChordRow('V/')}
     </div>
   );
 }

@@ -10,13 +10,6 @@ function App() {
       {/* Title Header */}
       <div className='title-header'>
         <h1>Chord Progressions</h1>
-        <button onClick={() => newPlayChord(newGetChord('G major', 1, 'V/')[1])}>{newGetChord('G major', 1, 'V/')}</button> 
-        <button onClick={() => newPlayChord(newGetChord('G major', 2, 'V/')[1])}>{newGetChord('G major', 2, 'V/')}</button>
-        <button onClick={() => newPlayChord(newGetChord('G major', 3, 'V/')[1])}>{newGetChord('G major', 3, 'V/')}</button>
-        <button onClick={() => newPlayChord(newGetChord('G major', 4, 'V/')[1])}>{newGetChord('G major', 4, 'V7/')}</button>
-        <button onClick={() => newPlayChord(newGetChord('G major', 5, 'V/')[1])}>{newGetChord('G major', 5, 'V7/')}</button>
-        <button onClick={() => newPlayChord(newGetChord('G major', 6, 'V/')[1])}>{newGetChord('G major', 6, 'V/')}</button>
-        <button onClick={() => newPlayChord(newGetChord('G major', 7, 'V/')[1])}>{newGetChord('G major', 7, 'V/')}</button>
       </div>
 
       {/* Piano Header */}
