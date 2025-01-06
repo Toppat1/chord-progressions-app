@@ -81,7 +81,8 @@ function DegreeSection() {
     return <div>{chordRowButtons}</div>;
   };
 
-  const newChordRow = (alteration = '', invisPattern) => {
+  const newChordRow = (alteration = '') => {
+    // Can refactor
     let chordRowButtons = [];
     const indentRow = alteration.includes('/') ? true : false;
 
@@ -89,6 +90,18 @@ function DegreeSection() {
       chordRowButtons.push(<button className='invisible-half-degree-chord-button'></button>);
 
       for (let i = 1; i < 7; i++) {
+        const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
+        const chordName = chordInfo[1];
+        chordRowButtons.push(
+          <button className='degree-chord-button' onClick={() => newPlayChord(chordName)}>
+            {formatDegreeButton(chordInfo)}
+          </button>
+        );
+      }
+    } else if (alteration === '#ø7') {
+      chordRowButtons.push(<button className='invisible-half-degree-chord-button'></button>);
+
+      for (let i = 0; i < 6; i++) {
         const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
         const chordName = chordInfo[1];
         chordRowButtons.push(
@@ -129,8 +142,9 @@ function DegreeSection() {
       {chordRow('2inv')}
       {chordRow('1inv')}
       {newChordRow()}
-      
+
       {newChordRow('V/')}
+      {newChordRow('#ø7')}
       {newChordRow('vii°7/')}
 
       <div>

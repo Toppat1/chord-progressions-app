@@ -330,6 +330,9 @@ export function newGetChord(key, degreeDigit, alteration = '') {
   } else if (alteration === 'vii°7/') {
     chordNumeral = alteration + degree;
     chordName = chromaticNotes.at(chordRootIndex - 1) + 'dim7';
+  } else if (alteration === '#ø7') {
+    chordNumeral = '#' + degree.toLowerCase() + 'ø7';
+    chordName = chromaticNotes.at((chordRootIndex + 1) % 12) + 'm7b5';
   } else {
     chordNumeral = degree + alteration;
     chordName = chordRoot + chordTonality + alteration;

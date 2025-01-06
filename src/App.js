@@ -24,11 +24,6 @@ function App() {
         <div>3</div>
         <div>4</div>
         <div>5</div>
-        <button onClick={() => newPlayChord('C')}>C</button>
-        <button onClick={() => newPlayChord('D#dim7')}>D#dim7</button>
-        <button onClick={() => newPlayChord('C#m7b5')}>C#m7b5</button>
-        <button>{newGetChord('G major', 7)}</button>
-        <button onClick={() => newPlayChord(newGetChord('G major', 5, 'sus4')[1])}>{newGetChord('G major', 5, 'sus4')}</button>
       </div>
 
       {/* Degree Header */}
