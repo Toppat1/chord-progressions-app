@@ -326,7 +326,7 @@ export function newGetChord(key, degreeDigit, alteration = '') {
     chordNumeral = alteration + degree;
     chordName = newGetChord(chordTonality === 'm' ? `${chordRoot} harmonic minor` : `${chordRoot} major`, 5, '7')[1];
   } else if (alteration === '7') {
-    chordNumeral = degree + scales[keyTonality][2][chordPos];
+    chordNumeral = degree + (scales[keyTonality][2][chordPos] === 'm7' ? '7' : scales[keyTonality][2][chordPos]);
     chordName = chordRoot + scales[keyTonality][2][chordPos];
   } else {
     chordNumeral = degree + alteration;

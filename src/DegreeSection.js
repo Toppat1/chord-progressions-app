@@ -130,6 +130,8 @@ function DegreeSection() {
       </div>
       {newChordRow('7')}
       {newChordRow('V/')}
+      {newChordRow('sus2')}
+      {newChordRow('sus4')}
     </div>
   );
 }
