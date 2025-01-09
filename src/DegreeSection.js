@@ -40,48 +40,7 @@ function DegreeSection() {
   };
 
   // Return a row of buttons with a common chord alteration
-
-  // [1,2,2,2,0,0,2,1]
-  const chordRow = (alteration, invisPattern) => {
-    let chordRowButtons = [];
-
-    for (let i = 0; i < (invisPattern ? invisPattern.length : 7); i++) {
-      const chordInfo = getChord(keyText, i + 1, alteration); // Contains [chordRoman, chordName]
-      const chordName = chordInfo[1];
-
-      let itemToPush;
-
-      if (!invisPattern || invisPattern[i] === undefined) {
-        itemToPush = (
-          <button className='degree-chord-button' onClick={() => playChord(chordName)}>
-            {formatDegreeButton(chordInfo)}
-          </button>
-        );
-      } else {
-        switch (invisPattern[i]) {
-          case 0:
-            itemToPush = (
-              <button className='degree-chord-button' onClick={() => playChord(chordName)}>
-                {formatDegreeButton(chordInfo)}
-              </button>
-            );
-            break;
-
-          case 1:
-            itemToPush = <button id='invisible-half' className='invisible-half-degree-chord-button'></button>;
-            break;
-
-          case 2:
-            itemToPush = <button id='invisible-full' className='invisible-full-degree-chord-button'></button>;
-            break;
-        }
-      }
-      chordRowButtons.push(itemToPush);
-    }
-    return <div>{chordRowButtons}</div>;
-  };
-
-  const newChordRow = (alteration = '') => {
+  const chordRow = (alteration = '') => {
     // Can refactor
     let chordRowButtons = [];
     const indentRow = alteration.includes('/') ? true : false;
@@ -139,31 +98,17 @@ function DegreeSection() {
         )}
       </div>
 
-      {newChordRow('2inv')}
-      {newChordRow('1inv')}
-      {newChordRow()}
+      {chordRow('2inv')}
+      {chordRow('1inv')}
+      {chordRow()}
 
-      {newChordRow('V/')}
-      {newChordRow('#ø7')}
-      {newChordRow('vii°7/')}
+      {chordRow('V/')}
+      {chordRow('#ø7')}
+      {chordRow('vii°7/')}
 
-      <div>
-        <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
-        <button id='invisible-full' className='invisible-full-degree-chord-button'></button>
-        <button id='invisible-full' className='invisible-full-degree-chord-button'></button>
-        <button id='invisible-full' className='invisible-full-degree-chord-button'></button>
-        <button id='degree#m4ø7' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 4, '#mø7')[1])}>
-          {formatDegreeButton(getChord(keyText, 4, '#mø7'))}
-        </button>
-        <button id='degree7°7/3' className='degree-chord-button' onClick={() => playChord(getChord(keyText, 6, '7°7/')[1])}>
-          {formatDegreeButton(getChord(keyText, 6, '7°7/'))}
-        </button>
-        <button id='invisible-full' className='invisible-full-degree-chord-button'></button>
-        <button id='invisible-half' className='invisible-half-degree-chord-button'></button>
-      </div>
-      {newChordRow('7')}
-      {newChordRow('sus2')}
-      {newChordRow('sus4')}
+      {chordRow('7')}
+      {chordRow('sus2')}
+      {chordRow('sus4')}
     </div>
   );
 }

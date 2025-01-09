@@ -3,6 +3,7 @@ import './App.css';
 import ButtonGrid from './ButtonGrid.js';
 import { playNote, playChord, playSequence, notes, chords, newPlayChord, newGetChord } from './musicHelpers.js';
 import DegreeSection from './DegreeSection.js';
+import ProgressionSection from './ProgressionSection.js';
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
       {/* Progression Header */}
       <div className='progression-header'>
         <h2>Progression</h2>
+      </div>
+
+      {/* Progression Section */}
+      <div>
+        <ProgressionSection />
       </div>
 
       {/* Chord Header */}
