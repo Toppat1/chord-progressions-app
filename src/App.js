@@ -36,6 +36,11 @@ function App() {
         <DegreeSection />
       </div>
 
+      {/* Progression Header */}
+      <div className='progression-header'>
+        <h2>Progression</h2>
+      </div>
+
       {/* Chord Header */}
       <div className='chord-header'>
         <h2>Chords</h2>

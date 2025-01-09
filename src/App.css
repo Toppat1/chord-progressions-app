@@ -23,6 +23,13 @@ body {
   background-color: lightgreen;
 }
 
+.progression-header h2 {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: lightgreen;
+}
+
 .chord-header h2 {
   margin: 0;
   padding: 10px;

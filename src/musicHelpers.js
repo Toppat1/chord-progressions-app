@@ -4,17 +4,17 @@ import * as Tone from 'tone';
 const synth = new Tone.PolySynth().toDestination();
 
 // Play a note when called
-export function playNote(pitch) {
+export function playNote(pitch, duration = '16n') {
   console.log(`Playing note: ${pitch}`);
-  synth.triggerAttackRelease(pitch, '16n');
+  synth.triggerAttackRelease(pitch, duration);
 }
 
 // Play a chord
-export function playChord(chordNameOrNotes) {
+export function playChord(chordNameOrNotes, duration = '16n') {
   if (Array.isArray(chordNameOrNotes)) {
     // If an array of notes is passed, play the chord directly
     console.log(`Playing chord: ${chordNameOrNotes}`);
-    synth.triggerAttackRelease(chordNameOrNotes, '16n');
+    synth.triggerAttackRelease(chordNameOrNotes, duration);
   } else {
     // If a chord name is passed, find and play the corresponding chord
     const chordName = chordNameOrNotes;
@@ -22,7 +22,7 @@ export function playChord(chordNameOrNotes) {
       if (chords[category][chordName]) {
         const notes = chords[category][chordName];
         console.log(`Playing chord: ${chordName} - ${notes}`);
-        synth.triggerAttackRelease(notes, '16n');
+        synth.triggerAttackRelease(notes, duration);
         return;
       }
     }
@@ -55,10 +55,11 @@ await Tone.start();
 const synth1 = new Tone.PolySynth(Tone.Synth).toDestination();
 
 export const newPlayChord = chordName => {
+  console.log(`Playing chord ${chordName}`)
   // E.g. 'C' --> Major with C as the root note --> 'C': ['C4', 'E4', 'G4'] --> Play C Major
 
   // Find chord root
-  const root = chordName.includes('#') ? chordName.slice(0, 2) : chordName.slice(0, 1);
+  const root = chordName[1] === '#' ? chordName.slice(0, 2) : chordName.slice(0, 1);
 
   // Find chord type/alterations
   let type = chordName.slice(root.length);
@@ -81,6 +82,7 @@ export const newPlayChord = chordName => {
   }
 
   // Additional chord alterations, maybe change to explicit index groups directly?
+  let bassNote; // If a slash chord
   while (type !== '') {
     if (type.slice(0, 4) === 'sus4') {
       indexesToPlay[1] = 5;
@@ -112,6 +114,9 @@ export const newPlayChord = chordName => {
       // Dominant seventh
       indexesToPlay.push(10);
       type = type.substring(1);
+    } else if (type.slice(0, 1) === '/') {
+      bassNote = type.substring(1);
+      type = '';
     }
   } // TO DO: FIRST/SECOND INVERSIONS AND UNRELATED NEW ROOT CHORDS, e.g. Am/G or Am7/G
 
@@ -125,6 +130,19 @@ export const newPlayChord = chordName => {
   indexesToPlay.forEach(noteIndex => {
     notesToPlay.push(chromaticNotes[(noteIndex + rootNoteIndex) % 12]);
   });
+
+  console.log(`Root is ${root}, bassNote is ${bassNote}, notesToPlay are ${notesToPlay}`)
+
+  // If the chord is in 1st or 2nd inversion
+  if (notesToPlay[1] === bassNote) {
+    console.log(`Note in first inverison is ${notesToPlay} with bassnote ${bassNote}`);
+    // Make second note the first note, add the rest of the notes, then add the first note to the end
+    notesToPlay = [notesToPlay[1], ...notesToPlay.slice(2), notesToPlay[0]];
+  } else if (notesToPlay[2] === bassNote) {
+    console.log(`Note in second inverison is ${notesToPlay} with bassnote ${bassNote}`);
+    // Make second note the first note, add the rest of the notes, then add the first note to the end
+    notesToPlay = [notesToPlay[2], ...notesToPlay.slice(3), notesToPlay[0], notesToPlay[1]];
+  }
 
   // Algorithm to logically add on the octave number of each note
   notesToPlay = notesToPlay.map(note => {
@@ -333,6 +351,42 @@ export function newGetChord(key, degreeDigit, alteration = '') {
   } else if (alteration === '#ø7') {
     chordNumeral = '#' + degree.toLowerCase() + 'ø7';
     chordName = chromaticNotes.at((chordRootIndex + 1) % 12) + 'm7b5';
+  } else if (alteration === '1inv') {
+    chordNumeral = degree + '6';
+    let secondNoteChromaticIndex;
+
+    switch (chordTonality) {
+      case 'm':
+        secondNoteChromaticIndex = chordFormulae['Minor'][1];
+        chordName = chordRoot + 'm/' + chromaticNotes[(chordRootIndex + secondNoteChromaticIndex) % 12];
+        break;
+      case '':
+        secondNoteChromaticIndex = chordFormulae['Major'][1];
+        chordName = chordRoot + '/' + chromaticNotes[(chordRootIndex + secondNoteChromaticIndex) % 12];
+        break;
+      case 'dim':
+        secondNoteChromaticIndex = chordFormulae['Diminished'][1];
+        chordName = chordRoot + 'dim/' + chromaticNotes[(chordRootIndex + secondNoteChromaticIndex) % 12];
+        break;
+    }
+  } else if (alteration === '2inv') {
+    chordNumeral = degree + '64';
+    let thirdNoteChromaticIndex;
+
+    switch (chordTonality) {
+      case 'm':
+        thirdNoteChromaticIndex = chordFormulae['Minor'][2];
+        chordName = chordRoot + 'm/' + chromaticNotes[(chordRootIndex + thirdNoteChromaticIndex) % 12];
+        break;
+      case '':
+        thirdNoteChromaticIndex = chordFormulae['Major'][2];
+        chordName = chordRoot + '/' + chromaticNotes[(chordRootIndex + thirdNoteChromaticIndex) % 12];
+        break;
+      case 'dim':
+        thirdNoteChromaticIndex = chordFormulae['Diminished'][2];
+        chordName = chordRoot + 'dim/' + chromaticNotes[(chordRootIndex + thirdNoteChromaticIndex) % 12];
+        break;
+    }
   } else {
     chordNumeral = degree + alteration;
     chordName = chordRoot + chordTonality + alteration;

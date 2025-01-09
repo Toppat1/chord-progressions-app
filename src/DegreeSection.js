@@ -139,8 +139,8 @@ function DegreeSection() {
         )}
       </div>
 
-      {chordRow('2inv')}
-      {chordRow('1inv')}
+      {newChordRow('2inv')}
+      {newChordRow('1inv')}
       {newChordRow()}
 
       {newChordRow('V/')}
