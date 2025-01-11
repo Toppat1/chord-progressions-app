@@ -1,4 +1,5 @@
 import * as Tone from 'tone';
+import { useChordContext } from './chordOrderContext';
 
 // Creating a synth instance
 const synth = new Tone.PolySynth().toDestination();
@@ -586,11 +587,14 @@ const formatDegreeButton = ([degreeDigit, chord]) => {
 };
 
 // Create Degree button
-export const chordButton = ([chordNumeral, chordName]) => {
+export const ChordButton = ([chordNumeral, chordName]) => {
+  const { chordOrder, setChordOrder } = useChordContext();
+
   // Handler for when the chord button is right-clicked
   const handleRightClick = event => {
     event.preventDefault(); // Disables right-click context menu
-    
+    setChordOrder([...chordOrder, [chordNumeral, chordName]]);
+    console.log(`Right clicked button was ${chordNumeral} ${chordName}, chord order is ${chordOrder}`)
   };
 
   return (

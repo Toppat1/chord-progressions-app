@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import './App.css';
-import { playNote, playChord, playSequence, notes, chords, getChord, newGetChord, newPlayChord, chordButton } from './musicHelpers.js';
+import { ChordButton } from './musicHelpers.js';
+import { useChordContext } from './chordOrderContext';
 
 function ProgressionSection() {
-  // Set an array initially to 'G major', but can be changed using the setKeyText function
-  const [chordOrder, setChordOrder] = useState([
-    ['V', 'D'],
-    ['I', 'G'],
-  ]);
+  // Access chordOrder and setChordOrder from ChordContext
+  const { chordOrder, setChordOrder } = useChordContext();
+
   let chordButtons = [];
 
   for (let i = 0; i < chordOrder.length; i++) {
-    chordButtons.push(chordButton(chordOrder[i]));
+    chordButtons.push(ChordButton(chordOrder[i]));
   }
 
-  return <div>{chordButtons}</div>;
+  return (
+    <div>
+      <button>{chordOrder}</button>
+      <div>{chordButtons}</div>
+    </div>
+  );
 }
 
 export default ProgressionSection;

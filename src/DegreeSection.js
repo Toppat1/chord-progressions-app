@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { playNote, playChord, playSequence, notes, chords, getChord, newGetChord, newPlayChord, chordButton } from './musicHelpers.js';
+import { newGetChord, ChordButton } from './musicHelpers.js';
 
 function DegreeSection() {
   // Set a variable initially to 'G major', but can be changed using the setKeyText function
@@ -40,19 +40,19 @@ function DegreeSection() {
 
       for (let i = 1; i < 7; i++) {
         const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
-        chordRowButtons.push(chordButton(chordInfo));
+        chordRowButtons.push(ChordButton(chordInfo));
       }
     } else if (alteration === '#ø7') {
       chordRowButtons.push(<button className='invisible-half-degree-chord-button'></button>);
 
       for (let i = 0; i < 6; i++) {
         const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
-        chordRowButtons.push(chordButton(chordInfo));
+        chordRowButtons.push(ChordButton(chordInfo));
       }
     } else {
       for (let i = 0; i < 7; i++) {
         const chordInfo = newGetChord(keyText, i + 1, alteration); // Contains [chordNumeral, chordName]
-        chordRowButtons.push(chordButton(chordInfo));
+        chordRowButtons.push(ChordButton(chordInfo));
       }
     }
 
