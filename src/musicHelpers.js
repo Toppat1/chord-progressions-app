@@ -55,7 +55,7 @@ await Tone.start();
 const synth1 = new Tone.PolySynth(Tone.Synth).toDestination();
 
 export const newPlayChord = chordName => {
-  console.log(`Playing chord ${chordName}`)
+  console.log(`Playing chord ${chordName}`);
   // E.g. 'C' --> Major with C as the root note --> 'C': ['C4', 'E4', 'G4'] --> Play C Major
 
   // Find chord root
@@ -131,7 +131,7 @@ export const newPlayChord = chordName => {
     notesToPlay.push(chromaticNotes[(noteIndex + rootNoteIndex) % 12]);
   });
 
-  console.log(`Root is ${root}, bassNote is ${bassNote}, notesToPlay are ${notesToPlay}`)
+  console.log(`Root is ${root}, bassNote is ${bassNote}, notesToPlay are ${notesToPlay}`);
 
   // If the chord is in 1st or 2nd inversion
   if (notesToPlay[1] === bassNote) {
@@ -573,4 +573,29 @@ export const chords = {
     'G/F': ['G4', 'B4', 'D5', 'F4'],
     'Bm/D': ['B4', 'D5', 'F#5', 'D4'],
   },
+};
+
+// Take in a degree and chord, and return them one on top of the other to be displayed on the degree button
+const formatDegreeButton = ([degreeDigit, chord]) => {
+  return (
+    <>
+      <div className='roman-numeral'>{degreeDigit}</div>
+      <div className='chord-name'>{chord}</div>
+    </>
+  );
+};
+
+// Create Degree button
+export const chordButton = ([chordNumeral, chordName]) => {
+  // Handler for when the chord button is right-clicked
+  const handleRightClick = event => {
+    event.preventDefault(); // Disables right-click context menu
+    
+  };
+
+  return (
+    <button className='degree-chord-button' onClick={() => newPlayChord(chordName)} onContextMenu={handleRightClick}>
+      {formatDegreeButton([chordNumeral, chordName])}
+    </button>
+  );
 };
