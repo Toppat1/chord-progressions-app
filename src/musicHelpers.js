@@ -388,6 +388,9 @@ export function newGetChord(key, degreeDigit, alteration = '') {
         chordName = chordRoot + 'dim/' + chromaticNotes[(chordRootIndex + thirdNoteChromaticIndex) % 12];
         break;
     }
+  } else if (alteration === 'dim') {
+    chordNumeral = degree + (degree.includes('°') ? '' : '°');
+    chordName = chordRoot + 'dim'
   } else {
     chordNumeral = degree + alteration;
     chordName = chordRoot + chordTonality + alteration;
@@ -594,7 +597,7 @@ export const ChordButton = ([chordNumeral, chordName]) => {
   const handleRightClick = event => {
     event.preventDefault(); // Disables right-click context menu
     setChordOrder([...chordOrder, [chordNumeral, chordName]]);
-    console.log(`Right clicked button was ${chordNumeral} ${chordName}, chord order is ${chordOrder}`)
+    console.log(`Right clicked button was ${chordNumeral} ${chordName}, chord order is ${chordOrder}`);
   };
 
   return (

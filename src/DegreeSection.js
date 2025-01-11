@@ -83,6 +83,7 @@ function DegreeSection() {
       {chordRow('7')}
       {chordRow('sus2')}
       {chordRow('sus4')}
+      {chordRow('dim')}
     </div>
   );
 }
