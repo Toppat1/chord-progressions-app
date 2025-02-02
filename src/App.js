@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import ButtonGrid from './ButtonGrid.js';
 import { playNote, playChord, playSequence, notes, chords } from './musicHelpers.js';
 import DegreeSection from './DegreeSection.js';
 import ProgressionSection from './ProgressionSection.js';
 import { ChordOrderProvider } from './chordOrderContext.js';
+import * as Tone from 'tone';
 
 function App() {
   const [isToneStarted, setIsToneStarted] = useState(false);
