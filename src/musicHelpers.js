@@ -1,9 +1,10 @@
 import * as Tone from 'tone';
 import { useChordContext } from './chordOrderContext';
 
-// Ensure Tone.js context is started
+// When the app is first loaded, the Tone.js context is off
 let isToneStarted = false;
 
+// Function to start the Tone.js context
 export const startTone = async () => {
   if (!isToneStarted) {
     await Tone.start();
@@ -397,7 +398,7 @@ export function newGetChord(key, degreeDigit, alteration = '') {
     }
   } else if (alteration === 'dim') {
     chordNumeral = degree + (degree.includes('°') ? '' : '°');
-    chordName = chordRoot + 'dim'
+    chordName = chordRoot + 'dim';
   } else {
     chordNumeral = degree + alteration;
     chordName = chordRoot + chordTonality + alteration;
@@ -613,3 +614,21 @@ export const ChordButton = ([chordNumeral, chordName]) => {
     </button>
   );
 };
+
+// Play chords in the chord order context
+export function playProgression(chordsList) {
+  // Access chordOrder and setChordOrder from ChordContext
+
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    const now = Tone.now();
+    const part = new Tone.Part(
+      (time, chord) => {
+        synth1.triggerAttackRelease(chord, '16n', time);
+      },
+      chordsList.map((chord, index) => [index * 0.075, chord])
+    ).start(0);
+  
+    Tone.Transport.start(now);
+    
+}
