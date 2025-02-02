@@ -1,8 +1,19 @@
 import * as Tone from 'tone';
 import { useChordContext } from './chordOrderContext';
 
+// Ensure Tone.js context is started
+let isToneStarted = false;
+
+export const startTone = async () => {
+  if (!isToneStarted) {
+    await Tone.start();
+    isToneStarted = true;
+  }
+};
+
 // Creating a synth instance
 const synth = new Tone.PolySynth().toDestination();
+const synth1 = new Tone.PolySynth(Tone.Synth).toDestination();
 
 // Play a note when called
 export function playNote(pitch, duration = '16n') {
@@ -50,10 +61,6 @@ export function playSequence(notes) {
 const chromaticNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
 const chordFormulae = { 'Major': [0, 4, 7], 'Minor': [0, 3, 7], 'Diminished': [0, 3, 6], 'Augmented': [0, 4, 8] };
-
-// Initialize Tone.js context and PolySynth instance once
-await Tone.start();
-const synth1 = new Tone.PolySynth(Tone.Synth).toDestination();
 
 export const newPlayChord = chordName => {
   console.log(`Playing chord ${chordName}`);
