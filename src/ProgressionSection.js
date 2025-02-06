@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { ChordButton } from './musicHelpers.js';
 import { useChordContext } from './chordOrderContext';
+import TextBoxComponent from './chordInputter';
 
 function ProgressionSection() {
   // Access chordOrder and setChordOrder from ChordContext
@@ -16,6 +17,7 @@ function ProgressionSection() {
   return (
     <div>
       <button>{chordOrder}</button>
+      <TextBoxComponent />
       <div>{chordButtons}</div>
     </div>
   );
