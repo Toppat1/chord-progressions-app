@@ -631,4 +631,24 @@ export function playProgression(chordsList) {
   
     Tone.Transport.start(now);
     
+};
+
+export function getChordV3 (key, fullNumeral){
+  // Split key to G and Major
+  key = key.toLowerCase();
+  const keyParts = key.split(' ');
+
+  const keyRoot = keyParts[0].toUpperCase(); // E.g. G in G Major
+  const keyTonality = keyParts.slice(1).join(' '); // E.g. Major or natural/harmonic/melodic minor
+
+  // HANDLE SHARP PRECEEDING NUMERAL
+
+  // Separate full numeral into numeral and alteration
+  const numerals = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'];
+
+  numerals.forEach(number => {
+    if (fullNumeral.includes(number)) {
+      let numeral = number
+    }
+  })
 }
