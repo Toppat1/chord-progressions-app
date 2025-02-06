@@ -1,18 +1,15 @@
-import { useState } from 'react';
+export default function TextBoxComponent({ text, setText }) {
 
-export default function TextBoxComponent() {
-  const [text, setText] = useState('');
-
-  // function to show what text was in the box when clicked
+  // Function to show what text was in the box when clicked
   function showText() {
     alert(`You typed ${text}`);
   }
 
   // Function that runs whenever a key is pressed while in the text box
-  function handleKeyDown(e){
+  function handleKeyDown(e) {
     if (e.key === 'Enter') {
-        alert(`Man pressed Enter still. Anyway you entered ${text}`)
-        setText('')
+      //alert(`Man pressed Enter still. Anyway you entered ${text}`);
+      setText('');
     }
   }
 
@@ -22,9 +19,9 @@ export default function TextBoxComponent() {
       <input
         type='text'
         value={text}
-        onChange={e => setText(e.target.value)} // Listen for typing (the onChange event). 
+        onChange={e => setText(e.target.value)} // Listen for typing (the onChange event).
         // onClick={showText}
-        onKeyDown={handleKeyDown}
+        onKeyDown={handleKeyDown} // Detect Enter key
       ></input>
     </div>
   );
