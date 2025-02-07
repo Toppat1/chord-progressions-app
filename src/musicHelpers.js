@@ -619,36 +619,49 @@ export const ChordButton = ([chordNumeral, chordName]) => {
 export function playProgression(chordsList) {
   // Access chordOrder and setChordOrder from ChordContext
 
-    Tone.Transport.stop();
-    Tone.Transport.cancel();
-    const now = Tone.now();
-    const part = new Tone.Part(
-      (time, chord) => {
-        synth1.triggerAttackRelease(chord, '16n', time);
-      },
-      chordsList.map((chord, index) => [index * 0.075, chord])
-    ).start(0);
-  
-    Tone.Transport.start(now);
-    
-};
+  Tone.Transport.stop();
+  Tone.Transport.cancel();
+  const now = Tone.now();
+  const part = new Tone.Part(
+    (time, chord) => {
+      synth1.triggerAttackRelease(chord, '16n', time);
+    },
+    chordsList.map((chord, index) => [index * 0.075, chord])
+  ).start(0);
 
-export function getChordV3 (key, fullNumeral){
-  // Split key to G and Major
-  key = key.toLowerCase();
-  const keyParts = key.split(' ');
+  Tone.Transport.start(now);
+}
 
-  const keyRoot = keyParts[0].toUpperCase(); // E.g. G in G Major
-  const keyTonality = keyParts.slice(1).join(' '); // E.g. Major or natural/harmonic/melodic minor
-
-  // HANDLE SHARP PRECEEDING NUMERAL
+// From key and numeral (eventually number), return the chord made
+export function getChordV3(key, fullNumeral) {
+  // Split musical key into usable parts
+  const keyLetter = key.toLowerCase().split(' ')[0].toUpperCase(); // E.g. G in G Major
+  const keyTonality = key.toLowerCase().split(' ').slice(1).join(' '); // E.g. Major or natural/harmonic/melodic minor
 
   // Separate full numeral into numeral and alteration
   const numerals = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii'];
 
-  numerals.forEach(number => {
-    if (fullNumeral.includes(number)) {
-      let numeral = number
-    }
-  })
+  // Musical constants
+  const chromaticNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const scales = {
+    'major': [0, 2, 4, 5, 7, 9, 11], // Indices of root notes in scale
+    'minor': [0, 2, 3, 5, 7, 8, 10],
+  };
+
+  // Find tonic I chord root index
+  const tonicRootIndex = chromaticNotes.indexOf(keyLetter);
+
+  // ALGORITHM TO ISOLATE PRIME CHORD
+  const primeNumeral = fullNumeral
+
+  // Find which chord correlates with the numeral
+  const chordRootLetter = chromaticNotes[(tonicRootIndex + scales[keyTonality][numerals.indexOf(primeNumeral.toLowerCase())]) % 12];
+
+  // Find chord tonality, major/minor, and append to chord
+  const chordTonality = primeNumeral === primeNumeral.toUpperCase() ? 'major' : 'minor';
+  const chordName = chordRootLetter + (chordTonality === 'major' ? '' : 'm');
+
+  // HANDLE SHARP PRECEEDING NUMERAL
+
+  return chordName;
 }

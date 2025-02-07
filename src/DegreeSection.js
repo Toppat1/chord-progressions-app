@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 import { newGetChord, ChordButton } from './musicHelpers.js';
+import { useMusicalKeyContext } from './musicalKeyContext.js';
 
 function DegreeSection() {
-  // Set a variable initially to 'G major', but can be changed using the setMusicalKey function
-  const [musicalKey, setMusicalKey] = useState('G major');
+  // Access musicalKey and setMusicalKey from MusicalKeyContext
+  const { musicalKey, setMusicalKey } = useMusicalKeyContext();
 
   // KEY SETTING
 

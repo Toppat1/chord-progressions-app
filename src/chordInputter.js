@@ -1,4 +1,10 @@
+import { getChordV3 } from './musicHelpers.js';
+import { newPlayChord } from './musicHelpers.js';
+import { useMusicalKeyContext } from './musicalKeyContext.js';
+
 export default function TextBoxComponent({ text, setText }) {
+  // Access musicalKey and setMusicalKey from MusicalKeyContext
+  const { musicalKey, setMusicalKey } = useMusicalKeyContext();
 
   // Function to show what text was in the box when clicked
   function showText() {
@@ -8,7 +14,8 @@ export default function TextBoxComponent({ text, setText }) {
   // Function that runs whenever a key is pressed while in the text box
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
-      //alert(`Man pressed Enter still. Anyway you entered ${text}`);
+      alert(`Man pressed Enter still. Anyway you entered ${text}. Chord in scale is ${getChordV3(musicalKey, text)}`);
+      newPlayChord(getChordV3(musicalKey, text));
       setText('');
     }
   }
