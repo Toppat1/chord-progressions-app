@@ -652,14 +652,27 @@ export function getChordV3(key, fullNumeral) {
   const tonicRootIndex = chromaticNotes.indexOf(keyLetter);
 
   // ALGORITHM TO ISOLATE PRIME CHORD
-  const primeNumeral = fullNumeral
+  let primeNumeral = '';
+  let alteration = '';
+  if (['vii', 'iii'].includes(fullNumeral.slice(0, 3).toLowerCase())) {
+    primeNumeral = fullNumeral.slice(0, 3);
+    alteration = fullNumeral.slice(3);
+  } else if (['vi', 'ii', 'iv'].includes(fullNumeral.slice(0, 2).toLowerCase())) {
+    primeNumeral = fullNumeral.slice(0, 2);
+    alteration = fullNumeral.slice(2);
+  } else if (['v', 'i'].includes(fullNumeral.slice(0, 1).toLowerCase())) {
+    primeNumeral = fullNumeral.slice(0, 1);
+    alteration = fullNumeral.slice(1);
+  }
+
+  //const primeNumeral = fullNumeral
 
   // Find which chord correlates with the numeral
   const chordRootLetter = chromaticNotes[(tonicRootIndex + scales[keyTonality][numerals.indexOf(primeNumeral.toLowerCase())]) % 12];
 
   // Find chord tonality, major/minor, and append to chord
   const chordTonality = primeNumeral === primeNumeral.toUpperCase() ? 'major' : 'minor';
-  const chordName = chordRootLetter + (chordTonality === 'major' ? '' : 'm');
+  const chordName = chordRootLetter + (chordTonality === 'major' ? '' : 'm') + alteration;
 
   // HANDLE SHARP PRECEEDING NUMERAL
 

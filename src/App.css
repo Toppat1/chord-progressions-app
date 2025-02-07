@@ -9,6 +9,13 @@ body {
   background-color: lightblue;
 }
 
+.key-header h2 {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: lightgreen;
+}
+
 .piano-header h2 {
   margin: 0;
   padding: 10px;

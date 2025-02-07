@@ -8,6 +8,7 @@ import { ChordOrderProvider } from './chordOrderContext.js';
 import * as Tone from 'tone';
 import TextBoxComponent from './chordInputter';
 import { MusicalKeyProvider } from './musicalKeyContext.js';
+import MusicalKeySection from './musicalKeySection.js';
 
 function App() {
   // State variable for starting Tone.js
@@ -35,19 +36,31 @@ function App() {
                 <h1>Chord Progressions</h1>
               </div>
 
-              {/* Piano Header */}
-              <div className='piano-header'>
-                <h2>Piano</h2>
+              {/* Key Header */}
+              <div className='key-header'>
+                <h2>Key</h2>
               </div>
 
-              {/* Piano Section */}
-              <div class='piano-container'>
-                <div>1</div>
-                <div>2</div>
-                <div>3</div>
-                <div>4</div>
-                <div>5</div>
+              {/* Key Section */}
+              <div>
+                <MusicalKeySection />
               </div>
+
+              {/*
+                Piano Header
+                <div className='piano-header'>
+                  <h2>Piano</h2>
+                </div>
+
+                Piano Section
+                <div className='piano-container'>
+                  <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                  <div>4</div>
+                  <div>5</div>
+                </div>
+              */}
 
               {/* Degree Header */}
               <div className='degree-header'>
