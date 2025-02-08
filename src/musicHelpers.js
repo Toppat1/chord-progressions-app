@@ -665,8 +665,6 @@ export function getChordV3(key, fullNumeral) {
     alteration = fullNumeral.slice(1);
   }
 
-  //const primeNumeral = fullNumeral
-
   // Find which chord correlates with the numeral
   const chordRootLetter = chromaticNotes[(tonicRootIndex + scales[keyTonality][numerals.indexOf(primeNumeral.toLowerCase())]) % 12];
 

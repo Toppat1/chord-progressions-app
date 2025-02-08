@@ -7,9 +7,7 @@ const ChordOrderContext = createContext();
 export const ChordOrderProvider = ({ children }) => {
   // Shared state for ChordOrderProvider
   const [chordOrder, setChordOrder] = useState([
-    ['ii', 'Am'],
-    ['V', 'D'],
-    ['I', 'G'],
+    ['I', 'G']
   ]);
 
   return <ChordOrderContext.Provider value={{ chordOrder, setChordOrder }}> {children} </ChordOrderContext.Provider>;
