@@ -609,7 +609,7 @@ export const ChordButton = ([chordNumeral, chordName]) => {
   };
 
   return (
-    <button className='degree-chord-button' onClick={() => newPlayChord(chordName)} onContextMenu={handleRightClick}>
+    <button className='degree-chord-button' onMouseDown={() => newPlayChord(chordName)} onContextMenu={handleRightClick}>
       {formatDegreeButton([chordNumeral, chordName])}
     </button>
   );
