@@ -6,7 +6,6 @@ import DegreeSection from './DegreeSection.js';
 import ProgressionSection from './ProgressionSection.js';
 import { ChordOrderProvider } from './chordOrderContext.js';
 import * as Tone from 'tone';
-import TextBoxComponent from './chordInputter';
 import { MusicalKeyProvider } from './musicalKeyContext.js';
 import MusicalKeySection from './musicalKeySection.js';
 
@@ -19,9 +18,6 @@ function App() {
     await Tone.start();
     setIsToneStarted(true);
   };
-
-  // Create a state variable for the musical key
-  const [chordInput, setChordInput] = useState('V');
 
   return (
     <ChordOrderProvider>
@@ -80,8 +76,6 @@ function App() {
               {/* Progression Section */}
               <div>
                 <ProgressionSection />
-                <TextBoxComponent text={chordInput} setText={setChordInput} />
-                <h1>Current Chord: {chordInput}</h1> {/* Shows the updated text */}
               </div>
 
               {/* Chord Header */}

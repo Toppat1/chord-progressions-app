@@ -6,12 +6,10 @@ const ChordOrderContext = createContext();
 // Create the Provider component
 export const ChordOrderProvider = ({ children }) => {
   // Shared state for ChordOrderProvider
-  const [chordOrder, setChordOrder] = useState([
-    ['I', 'G']
-  ]);
+  const [chordOrder, setChordOrder] = useState([]);
 
   return <ChordOrderContext.Provider value={{ chordOrder, setChordOrder }}> {children} </ChordOrderContext.Provider>;
 };
 
 // Custom hook to use the Chord Context
-export const useChordContext = () => useContext(ChordOrderContext);
+export const useChordOrderContext = () => useContext(ChordOrderContext);

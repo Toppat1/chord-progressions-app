@@ -1,24 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
-import { ChordButton } from './musicHelpers.js';
-import { useChordContext } from './chordOrderContext';
+import { NewChordButton } from './musicHelpers.js';
+import TextBoxComponent from './chordInputter';
 
-function ProgressionSection() {
-  // Access chordOrder and setChordOrder from ChordContext
-  const { chordOrder, setChordOrder } = useChordContext();
-
-  let chordButtons = [];
-
-  for (let i = 0; i < chordOrder.length; i++) {
-    chordButtons.push(ChordButton(chordOrder[i]));
-  }
-
+export default function ProgressionSection() {
+  const [chordInput, setChordInput] = useState('V');
   return (
     <div>
-      <button>{chordOrder}</button>
-      <div>{chordButtons}</div>
+      <NewChordButton fullNumeral='Vsus4' />
+      <TextBoxComponent text={chordInput} setText={setChordInput} />
+      <h1>Current Chord: {chordInput}</h1> {/* Shows the updated text */}
     </div>
   );
 }
-
-export default ProgressionSection;

@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { useChordContext } from './chordOrderContext';
+import { useMusicalKeyContext } from './musicalKeyContext.js';
 
 // When the app is first loaded, the Tone.js context is off
 let isToneStarted = false;
@@ -599,13 +599,13 @@ const formatDegreeButton = ([degreeDigit, chord]) => {
 
 // Create Degree button
 export const ChordButton = ([chordNumeral, chordName]) => {
-  const { chordOrder, setChordOrder } = useChordContext();
+  // const { chordOrder, setChordOrder } = useChordContext();
 
   // Handler for when the chord button is right-clicked
   const handleRightClick = event => {
     event.preventDefault(); // Disables right-click context menu
-    setChordOrder([...chordOrder, [chordNumeral, chordName]]);
-    console.log(`Right clicked button was ${chordNumeral} ${chordName}, chord order is ${chordOrder}`);
+    //setChordOrder([...chordOrder, [chordNumeral, chordName]]);
+    //console.log(`Right clicked button was ${chordNumeral} ${chordName}, chord order is ${chordOrder}`);
   };
 
   return (
@@ -676,3 +676,23 @@ export function getChordV3(key, fullNumeral) {
 
   return chordName;
 }
+
+// Create new Chord button
+export const NewChordButton = ({ fullNumeral }) => {
+  // Access musicalKey and setMusicalKey from MusicalKeyContext
+  const { musicalKey } = useMusicalKeyContext();
+
+  // Get chord from numeral + musical key
+  const chordName = getChordV3(musicalKey, String(fullNumeral));
+
+  // Handle left click
+  const leftClickHandler = () => {
+    newPlayChord(chordName);
+  };
+
+  return (
+    <button className='degree-chord-button' onMouseDown={leftClickHandler}>
+      {formatDegreeButton([fullNumeral, chordName])}
+    </button>
+  );
+};
