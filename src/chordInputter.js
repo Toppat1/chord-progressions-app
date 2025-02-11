@@ -6,13 +6,20 @@ import { useChordOrderContext } from './chordOrderContext.js';
 export default function TextBoxComponent({ text, setText }) {
   // Access musicalKey and setMusicalKey from MusicalKeyContext
   const { musicalKey } = useMusicalKeyContext();
+  const { chordOrder, setChordOrder } = useChordOrderContext();
 
   // Function that runs whenever a key is pressed while in the text box
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
-      //alert(`Man pressed Enter still. Anyway you entered ${text}. Chord in scale is ${getChordV3(musicalKey, text)}`);
-      newPlayChord(getChordV3(musicalKey, text === '' ? 'I' : text));
+      const newChord = text === '' ? 'I' : text;
 
+      // Play the chord sound
+      newPlayChord(getChordV3(musicalKey, newChord));
+
+      // Update chordOrder properly by creating a new array
+      setChordOrder([...chordOrder, newChord]);
+
+      // Clear the input field
       setText('');
     }
   }
@@ -24,7 +31,6 @@ export default function TextBoxComponent({ text, setText }) {
         type='text'
         value={text}
         onChange={e => setText(e.target.value)} // Listen for typing (the onChange event).
-        // onClick={showText}
         onKeyDown={handleKeyDown} // Detect Enter key
       ></input>
     </div>
