@@ -63,7 +63,7 @@ const chromaticNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A
 
 const chordFormulae = { 'Major': [0, 4, 7], 'Minor': [0, 3, 7], 'Diminished': [0, 3, 6], 'Augmented': [0, 4, 8] };
 
-export const newPlayChord = chordName => {
+export const newPlayChord = (chordName, time = Tone.now()) => {
   console.log(`Playing chord ${chordName}`);
   // E.g. 'C' --> Major with C as the root note --> 'C': ['C4', 'E4', 'G4'] --> Play C Major
 
@@ -163,7 +163,7 @@ export const newPlayChord = chordName => {
   });
 
   // Play the chord notes in the array
-  synth1.triggerAttackRelease(notesToPlay, '16n');
+  synth1.triggerAttackRelease(notesToPlay, '16n', time);
 };
 
 const diatonicChords = {
@@ -695,4 +695,12 @@ export const NewChordButton = ({ fullNumeral }) => {
       {formatDegreeButton([fullNumeral, chordName])}
     </button>
   );
+};
+
+// Play chord sequence
+export const playChordSequence = (chordList, musicalKey) => {
+  chordList.forEach((chord, index) => {
+    const chordToPlay = getChordV3(musicalKey, chord);
+    newPlayChord(chordToPlay, Tone.now() + index * 0.75);
+  });
 };
