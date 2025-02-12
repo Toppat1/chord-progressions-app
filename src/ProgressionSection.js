@@ -8,7 +8,7 @@ import * as Tone from 'tone';
 
 export default function ProgressionSection() {
   const { musicalKey } = useMusicalKeyContext();
-  const { chordOrder } = useChordOrderContext();
+  const { chordOrder, setChordOrder } = useChordOrderContext();
   const [chordInput, setChordInput] = useState('V');
 
   let chordButtonList = [];
@@ -18,8 +18,9 @@ export default function ProgressionSection() {
 
   return (
     <div>
-      <button onClick={() => playChordSequence(chordOrder, musicalKey)}>Play</button>
-      <button onClick={() => newPlayChord('Am',Tone.now()+1)}>TEST</button>
+      <button onClick={() => playChordSequence(chordOrder, musicalKey, 0.5)}>Play</button>
+      <button onClick={() => setChordOrder(chordOrder.length <= 1 ? [] : chordOrder.slice(0,-1))}>Delete</button>
+      <button onClick={() => setChordOrder([])}>Clear</button>
       {chordButtonList}
       <TextBoxComponent text={chordInput} setText={setChordInput} />
       <h1>Current Chord: {chordInput}</h1> {/* Shows the updated text */}

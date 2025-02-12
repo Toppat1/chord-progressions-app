@@ -698,9 +698,9 @@ export const NewChordButton = ({ fullNumeral }) => {
 };
 
 // Play chord sequence
-export const playChordSequence = (chordList, musicalKey) => {
+export const playChordSequence = (chordList, musicalKey, delay = 0.5) => {
   chordList.forEach((chord, index) => {
     const chordToPlay = getChordV3(musicalKey, chord);
-    newPlayChord(chordToPlay, Tone.now() + index * 0.75);
+    newPlayChord(chordToPlay, Tone.now() + index * delay);
   });
 };
