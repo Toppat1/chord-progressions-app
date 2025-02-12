@@ -42,6 +42,16 @@ function App() {
                 <MusicalKeySection />
               </div>
 
+              {/* Progression Header */}
+              <div className='progression-header'>
+                <h2>Progression</h2>
+              </div>
+
+              {/* Progression Section */}
+              <div>
+                <ProgressionSection />
+              </div>
+
               {/*
                 Piano Header
                 <div className='piano-header'>
@@ -66,16 +76,6 @@ function App() {
               {/* Degree Section */}
               <div className='degree-chord-container'>
                 <DegreeSection />
-              </div>
-
-              {/* Progression Header */}
-              <div className='progression-header'>
-                <h2>Progression</h2>
-              </div>
-
-              {/* Progression Section */}
-              <div>
-                <ProgressionSection />
               </div>
 
               {/* Chord Header */}
