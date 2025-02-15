@@ -636,7 +636,7 @@ export function playProgression(chordsList) {
 export function getChordV3(key, fullNumeral) {
   try {
     // Split musical key into usable parts
-    const keyLetter = key.toLowerCase().split(' ')[0].toUpperCase(); // E.g. G in G Major
+    let keyLetter = key.toLowerCase().split(' ')[0].toUpperCase(); // E.g. G in G Major
     const keyTonality = key.toLowerCase().split(' ').slice(1).join(' '); // E.g. Major or natural/harmonic/melodic minor
 
     // Musical constants
@@ -647,40 +647,59 @@ export function getChordV3(key, fullNumeral) {
       'minor': [0, 2, 3, 5, 7, 8, 10],
     };
 
-    // Find tonic I chord root index
-    const tonicRootIndex = chromaticNotes.indexOf(keyLetter);
-
-    // Error handling for invalid tonic root index
-    if (tonicRootIndex === -1) throw new Error(`Invalid key letter: ${keyLetter}`);
-
-    // Separate full numeral into numeral and alteration
+    // Separate full numeral into numeral and extension
 
     // ALGORITHM TO ISOLATE PRIME CHORD
     let primeNumeral = '';
+
+    // Detect flat b or sharp #
     let alteration = '';
-    if (['vii', 'iii'].includes(fullNumeral.slice(0, 3).toLowerCase())) {
-      primeNumeral = fullNumeral.slice(0, 3);
-      alteration = fullNumeral.slice(3);
-    } else if (['vi', 'ii', 'iv'].includes(fullNumeral.slice(0, 2).toLowerCase())) {
-      primeNumeral = fullNumeral.slice(0, 2);
-      alteration = fullNumeral.slice(2);
-    } else if (['v', 'i'].includes(fullNumeral.slice(0, 1).toLowerCase())) {
-      primeNumeral = fullNumeral.slice(0, 1);
-      alteration = fullNumeral.slice(1);
+    if (fullNumeral[0] == 'b') {
+      fullNumeral = fullNumeral.slice(1);
+      alteration = 'b';
+    } else if (keyLetter[0] == '#') {
+      fullNumeral = fullNumeral.slice(1);
+      alteration = '#';
     }
 
-    primeNumeral = alteration === 'dim' ? primeNumeral.toUpperCase() : primeNumeral;
+    let extension = '';
+    if (['vii', 'iii'].includes(fullNumeral.slice(0, 3).toLowerCase())) {
+      primeNumeral = fullNumeral.slice(0, 3);
+      extension = fullNumeral.slice(3);
+    } else if (['vi', 'ii', 'iv'].includes(fullNumeral.slice(0, 2).toLowerCase())) {
+      primeNumeral = fullNumeral.slice(0, 2);
+      extension = fullNumeral.slice(2);
+    } else if (['v', 'i'].includes(fullNumeral.slice(0, 1).toLowerCase())) {
+      primeNumeral = fullNumeral.slice(0, 1);
+      extension = fullNumeral.slice(1);
+    }
+
+    // Turn vidim to VIdim
+    primeNumeral = extension === 'dim' ? primeNumeral.toUpperCase() : primeNumeral;
 
     // Error handling for if the prime numeral is invalid
     const numeralIndex = numerals.indexOf(primeNumeral.toLowerCase());
     if (numeralIndex === -1) throw new Error(`Invalid numeral: ${primeNumeral}`);
+
+    // Find tonic I chord root index
+    let tonicRootIndex = chromaticNotes.indexOf(keyLetter);
+
+    // Handle b and # alteration
+    if (alteration == 'b') {
+      tonicRootIndex = (tonicRootIndex - 1 + 12) % 12;
+    } else if (alteration == '#') {
+      tonicRootIndex = (tonicRootIndex + 1) % 12;
+    }
+
+    // Error handling for invalid tonic root index
+    if (tonicRootIndex === -1) throw new Error(`Invalid key letter: ${keyLetter}`);
 
     // Find which chord correlates with the numeral
     const chordRootLetter = chromaticNotes[(tonicRootIndex + scales[keyTonality][numerals.indexOf(primeNumeral.toLowerCase())]) % 12];
 
     // Find chord tonality, major/minor, and append to chord
     const chordTonality = primeNumeral === primeNumeral.toUpperCase() ? 'major' : 'minor';
-    const chordName = chordRootLetter + (chordTonality === 'major' ? '' : 'm') + alteration;
+    const chordName = chordRootLetter + (chordTonality === 'major' ? '' : 'm') + extension;
 
     // HANDLE SHARP PRECEEDING NUMERAL
 
