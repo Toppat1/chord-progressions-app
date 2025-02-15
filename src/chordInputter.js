@@ -8,8 +8,8 @@ export default function TextBoxComponent({ text, setText }) {
   const { musicalKey } = useMusicalKeyContext();
   const { chordOrder, setChordOrder } = useChordOrderContext();
 
-  const numbers = ['1', '2', '3', '4', '5', '6', '7'];
-  const chordMap = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii'];
+  const numbers = ['1', '2', '3', '4', '5', '6'];
+  const chordMap = ['I', 'ii', 'iii', 'IV', 'V', 'vi'];
 
   function handleKeyDown(e) {
     if (e.key === 'Enter' || numbers.includes(e.key)) {
