@@ -22,9 +22,9 @@ export default function ProgressionSection() {
         <button onMouseDown={() => setChordOrder(chordOrder.length <= 1 ? [] : chordOrder.slice(0, -1))}>Delete</button>
         <button onMouseDown={() => setChordOrder([])}>Clear</button>
       </div>
-      {chordButtonList}
       <TextBoxComponent text={chordInput} setText={setChordInput} />
-      <h1>Current Chord: {chordInput}</h1> {/* Shows the updated text */}
+      {chordButtonList}
+      <button onMouseDown={() => newPlayChord('Am/C')}>Am/C</button>
     </div>
   );
 }
