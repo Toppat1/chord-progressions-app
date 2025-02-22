@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/chord-progressions-app/static/css/main.a5398c85.css",
-    "main.js": "/chord-progressions-app/static/js/main.01a771ad.js",
+    "main.js": "/chord-progressions-app/static/js/main.a0439786.js",
     "index.html": "/chord-progressions-app/index.html",
     "main.a5398c85.css.map": "/chord-progressions-app/static/css/main.a5398c85.css.map",
-    "main.01a771ad.js.map": "/chord-progressions-app/static/js/main.01a771ad.js.map"
+    "main.a0439786.js.map": "/chord-progressions-app/static/js/main.a0439786.js.map"
   },
   "entrypoints": [
     "static/css/main.a5398c85.css",
-    "static/js/main.01a771ad.js"
+    "static/js/main.a0439786.js"
   ]
 }
