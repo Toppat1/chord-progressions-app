@@ -8,43 +8,45 @@ export default function TextBoxComponent({ text, setText }) {
   const { musicalKey } = useMusicalKeyContext();
   const { chordOrder, setChordOrder } = useChordOrderContext();
 
-  const numbers = ['1', '2', '3', '4', '5', '6'];
-  const chordMap = ['I', 'ii', 'iii', 'IV', 'V', 'vi'];
+  const numbers = ['1', '2', '3', '4', '5', '6', '7'];
+  const chordMap = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'viidim'];
 
   function handleKeyDown(e) {
-    if (e.key === 'Enter' || numbers.includes(e.key)) {
-      let newChord = text; // Default to whatever is in the text input
-
-    if (numbers.includes(e.key)) {
-      newChord = chordMap[numbers.indexOf(e.key)]; // Get chord directly from `e.key`
-    } else if (e.key === 'Enter' && text !== '') {
-      newChord = text; // If Enter is pressed, use the input text as the chord
+    let newChord;
+    
+    // Case 1: If text is empty and a number key (1-7) is pressed
+    if (text === '' && numbers.includes(e.key)) {
+      newChord = chordMap[numbers.indexOf(e.key)];
+    }
+    // Case 2: If Enter is pressed and there is text in the input
+    else if (e.key === 'Enter' && text !== '') {
+      // If the first character is a digit 1-7, convert it
+      if (numbers.includes(text[0])) {
+        newChord = chordMap[numbers.indexOf(text[0])];
+      } else {
+        // Otherwise, use the text as-is (e.g., "V7" stays "V7")
+        newChord = text;
+      }
     } else {
-      return; // If it's not a valid key, exit early
+      return; // No valid key press detected; do nothing
     }
 
-    console.log(`${newChord}, ${getChordV3(musicalKey, newChord)}`)
+    console.log(`${newChord}, ${getChordV3(musicalKey, newChord)}`);
+    newPlayChord(getChordV3(musicalKey, newChord));
+    setChordOrder([...chordOrder, newChord]);
 
-      // Play the chord sound
-      newPlayChord(getChordV3(musicalKey, newChord));
-
-      // Update chordOrder properly by creating a new array
-      setChordOrder([...chordOrder, newChord]);
-
-      // Clear the input field
-      setTimeout(() => setText(''), 0);
-    }
+    // Clear the input field immediately after processing
+    setTimeout(() => setText(''), 0);
   }
 
-  // Return the text box component
   return (
     <div>
       <input
-        type='text'
+        type="text"
         value={text}
-        onChange={e => setText(e.target.value)} // Listen for typing (the onChange event).
-        onKeyDown={handleKeyDown} // Detect Enter key
-      ></input>
+        onChange={e => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
     </div>
   );
 }

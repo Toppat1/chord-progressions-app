@@ -657,7 +657,7 @@ export function getChordV3(key, fullNumeral) {
     if (fullNumeral[0] == 'b') {
       fullNumeral = fullNumeral.slice(1);
       alteration = 'b';
-    } else if (keyLetter[0] == '#') {
+    } else if (fullNumeral[0] == '#') {
       fullNumeral = fullNumeral.slice(1);
       alteration = '#';
     }
