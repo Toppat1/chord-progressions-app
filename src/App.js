@@ -75,7 +75,7 @@ function App() {
               </div>
 
               {/* New Degree Section */}
-              <div>
+              <div className='degree-chord-container'>
                 <NewDegreeSection />
               </div>
 
