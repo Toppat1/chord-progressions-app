@@ -15,7 +15,7 @@ export function NewDegreeSection() {
 
         {numeralRow(['I','ii','iii','IV','V','vi','vii°'])}
         {numeralRow(['i','II','III','iv','v','VI','VII'])}
-        {numeralRow(['#Idim','#IIdim','#IIIdim','#IVdim','#Vdim','#VIdim','#VIIdim'])}
+        {numeralRow(['#Idim','#IIdim','#IIIdim','#IVdim','#Vdim','bVI','bVII'])}
         {numeralRow(['#Im7b5','#IIm7b5','#IIIm7b5','#IVm7b5','#Vm7b5','#VIm7b5','#VIIm7b5'])}
 
         </div>
