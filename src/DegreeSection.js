@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { newGetChord, ChordButton } from './musicHelpers.js';
+import { newGetChord, ChordButton, NewChordButton } from './musicHelpers.js';
 import { useMusicalKeyContext } from './musicalKeyContext.js';
 
 function DegreeSection() {
@@ -76,6 +76,15 @@ function DegreeSection() {
       {chordRow('2inv')}
       {chordRow('1inv')}
       {chordRow()}
+      {[
+        <NewChordButton fullNumeral={'i'} />,
+        <NewChordButton fullNumeral={'II'} />,
+        <NewChordButton fullNumeral={'III'} />,
+        <NewChordButton fullNumeral={'iv'} />,
+        <NewChordButton fullNumeral={'v'} />,
+        <NewChordButton fullNumeral={'VI'} />,
+        <NewChordButton fullNumeral={'VII'} />
+      ]}
 
       {chordRow('V/')}
       {chordRow('#ø7')}

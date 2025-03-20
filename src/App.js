@@ -8,6 +8,7 @@ import { ChordOrderProvider } from './chordOrderContext.js';
 import * as Tone from 'tone';
 import { MusicalKeyProvider } from './musicalKeyContext.js';
 import MusicalKeySection from './musicalKeySection.js';
+import { NewDegreeSection } from './newDegreeSection.js';
 
 function App() {
   // State variable for starting Tone.js
@@ -67,6 +68,16 @@ function App() {
                   <div>5</div>
                 </div>
               */}
+
+              {/* New Degree Header */}
+              <div className='degree-header'>
+                <h2>New Degree Section</h2>
+              </div>
+
+              {/* New Degree Section */}
+              <div>
+                <NewDegreeSection />
+              </div>
 
               {/* Degree Header */}
               <div className='degree-header'>

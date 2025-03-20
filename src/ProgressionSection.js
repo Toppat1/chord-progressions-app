@@ -12,7 +12,7 @@ export default function ProgressionSection() {
 
   let chordButtonList = [];
   chordOrder.forEach(chordNumeral => {
-    chordButtonList.push(<NewChordButton fullNumeral={chordNumeral} />);
+    chordButtonList.push(c);
   });
 
   return (
