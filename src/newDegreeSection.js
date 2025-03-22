@@ -8,7 +8,7 @@ export function NewDegreeSection() {
         numeralList.forEach(numeral => {
             numeralRowButtons.push(<NewChordButton fullNumeral={numeral} />)
         });
-        return(<div>{numeralRowButtons}</div>)
+        return(<div class name='numeralRow'>{numeralRowButtons}</div>)
     }
     return(
         <div className='degree-section'>
